@@ -19,33 +19,55 @@ namespace eindprojectGameDev.Characters
         private Texture2D texture;
         private int spriteWidth = 96;
         private int spriteHeight = 96;
+        private Animation currentAnimation;
+        Animation[] animations = new Animation[4]
+        {
+                new Animation(), //Idle
+                new Animation(), //Walk
+                new Animation(), //Fight
+                new Animation() //Die
+        };
+        /*
         private Animation animationIdle;
         private Animation animationWalk;
         private Animation animationDie;
         private Animation animationFight;
+        */
         public enum HeroStates { walkingRight, walkingLeft, idle, attacking }
         public HeroStates State = HeroStates.idle;
         public Hero(Texture2D texture, IInputReader inputReader)
         {
             this.texture = texture;
             this.inputReader = inputReader;
-
-            animationFight = new Animation();
-            /*animationIdle = new Animation();
-            animationDie = new Animation();
-            animationWalk = new Animation();
-            
-            animationIdle.GetFramesFromTextureProperties(2 * 160, 0 * 96, 2, 96);
-            animationWalk.GetFramesFromTextureProperties(8 * 160, 1 * 96, 8, 96);
-            animationDie.GetFramesFromTextureProperties(6 * 160, 3 * 96, 7, 96);
-            */
-            animationFight.GetFramesFromTextureProperties(7 * 160, 2 * 96, 7, 96);
             positie = new Vector2(100, 100);
         }
 
         public void Update(GameTime gameTime)
         {
+            State = HeroStates.idle;
+            currentAnimation = animations[0];
             var direction = inputReader.ReadInput();
+            if (direction.X < 0)
+            {
+                State = HeroStates.walkingLeft;
+                currentAnimation = animations[1];
+                animations[1].GetFramesFromTextureProperties(8 * 160, 1 * 96, 8, 96);
+                currentAnimation.Update(gameTime);
+            }
+            else if (direction.X > 0)
+            {
+                State = HeroStates.walkingRight;
+                currentAnimation = animations[1];
+                animations[1].GetFramesFromTextureProperties(8 * 160, 1 * 96, 8, 96);
+                currentAnimation.Update(gameTime);
+            }
+            else if (direction.X == 0 && direction.Y == 0)
+            {
+                State = HeroStates.idle;
+                currentAnimation = animations[0];
+                animations[0].GetFramesFromTextureProperties(2 * 160, 0 * 96, 2, 96);
+                currentAnimation.Update(gameTime);
+            }
             //checkOutOfBounds hozizontal
             if (positie.X <= 0 - spriteWidth/2)
             {
@@ -67,12 +89,28 @@ namespace eindprojectGameDev.Characters
             //create New Position
             direction *= speed;
             positie += direction;
-            animationFight.Update(gameTime);
+            animations[0].Update(gameTime);
         }
 
         public void Draw(SpriteBatch _spriteBatch)
         {
-            _spriteBatch.Draw(texture, positie, animationFight.CurrentFrame.SourceRectangle, Color.White,0,new Vector2(0,0),1f,SpriteEffects.FlipHorizontally,1);
+            switch (State)
+            {
+                case HeroStates.walkingRight:
+                    _spriteBatch.Draw(texture, positie, animations[1].CurrentFrame.SourceRectangle, Color.White);
+                    break;
+                case HeroStates.walkingLeft:
+                    _spriteBatch.Draw(texture, positie, animations[1].CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), 1f, SpriteEffects.FlipHorizontally, 1);
+                    break;
+                case HeroStates.idle:
+                    _spriteBatch.Draw(texture, positie, animations[0].CurrentFrame.SourceRectangle, Color.White);
+                    break;
+                case HeroStates.attacking:
+                    _spriteBatch.Draw(texture, positie, animations[2].CurrentFrame.SourceRectangle, Color.White);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
