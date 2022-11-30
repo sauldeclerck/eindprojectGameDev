@@ -26,10 +26,12 @@ namespace eindprojectGameDev
         {
             // TODO: Add your initialization logic here
             base.Initialize();
+            /*
             _graphics.IsFullScreen = true;
             _graphics.PreferredBackBufferHeight = GlobalSettings.Height;
             _graphics.PreferredBackBufferWidth = GlobalSettings.Width;
             _graphics.ApplyChanges();
+            */
             hero = new Hero(_heroTexture, new PlayerMovement());
         }
 

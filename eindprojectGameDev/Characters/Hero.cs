@@ -33,7 +33,7 @@ namespace eindprojectGameDev.Characters
         private Animation animationDie;
         private Animation animationFight;
         */
-        public enum HeroStates { walkingRight, walkingLeft, idle, attacking }
+        public enum HeroStates { walkingRight, walkingLeft, idle, attackingRight, attackingLeft }
         public HeroStates State = HeroStates.idle;
         public Hero(Texture2D texture, IInputReader inputReader)
         {
@@ -46,7 +46,7 @@ namespace eindprojectGameDev.Characters
         {
             State = HeroStates.idle;
             currentAnimation = animations[0];
-            var direction = inputReader.ReadInput();
+            var direction = inputReader.ReadMovementInput();
             if (direction.X < 0)
             {
                 State = HeroStates.walkingLeft;
@@ -68,6 +68,23 @@ namespace eindprojectGameDev.Characters
                 animations[0].GetFramesFromTextureProperties(2 * 160, 0 * 96, 2, 96);
                 currentAnimation.Update(gameTime);
             }
+            if (inputReader.ReadIsFighting() && direction.X >= 0)
+            {
+                State = HeroStates.attackingRight;
+                currentAnimation = animations[2];
+                animations[2].GetFramesFromTextureProperties(7 * 160, 2 * 96, 7, 96);
+                currentAnimation.Update(gameTime);
+            }
+            if (inputReader.ReadIsFighting() && direction.X < 0)
+            {
+                State = HeroStates.attackingLeft;
+                currentAnimation = animations[2];
+                animations[2].GetFramesFromTextureProperties(7 * 160, 2 * 96, 7, 96);
+                currentAnimation.Update(gameTime);
+            }
+            //create New Position
+            direction *= speed;
+            positie += direction;
             //checkOutOfBounds hozizontal
             if (positie.X <= 0 - spriteWidth/2)
             {
@@ -86,10 +103,6 @@ namespace eindprojectGameDev.Characters
             {
                 positie.Y = 0;
             }
-            //create New Position
-            direction *= speed;
-            positie += direction;
-            animations[0].Update(gameTime);
         }
 
         public void Draw(SpriteBatch _spriteBatch)
@@ -105,8 +118,11 @@ namespace eindprojectGameDev.Characters
                 case HeroStates.idle:
                     _spriteBatch.Draw(texture, positie, animations[0].CurrentFrame.SourceRectangle, Color.White);
                     break;
-                case HeroStates.attacking:
+                case HeroStates.attackingRight:
                     _spriteBatch.Draw(texture, positie, animations[2].CurrentFrame.SourceRectangle, Color.White);
+                    break;
+                case HeroStates.attackingLeft:
+                    _spriteBatch.Draw(texture, positie, animations[2].CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0,0), 1f, SpriteEffects.FlipHorizontally, 1);
                     break;
                 default:
                     break;

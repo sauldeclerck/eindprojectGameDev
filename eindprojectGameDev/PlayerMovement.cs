@@ -11,7 +11,7 @@ namespace eindprojectGameDev
 {
     internal class PlayerMovement : IInputReader
     {
-        public Vector2 ReadInput()
+        public Vector2 ReadMovementInput()
         {
             KeyboardState state = Keyboard.GetState();
             Vector2 direction = Vector2.Zero;
@@ -33,6 +33,9 @@ namespace eindprojectGameDev
             }
             return direction;
         }
-
+        public bool ReadIsFighting()
+        {
+            return Keyboard.GetState().IsKeyDown(Keys.Space);
+        }
     }
 }
