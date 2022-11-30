@@ -10,6 +10,7 @@ namespace eindprojectGameDev
 {
     internal interface IGameObject
     {
+        public int Health { get; set; }
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
     }

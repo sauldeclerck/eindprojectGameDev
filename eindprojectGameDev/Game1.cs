@@ -2,15 +2,18 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.Direct2D1;
 using System.Drawing;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
 namespace eindprojectGameDev
 {
     public class Game1 : Game
     {
         private Texture2D _heroTexture;
+        private Texture2D _colorTexture;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         //public GameStates GameStates = GameStates.menu;
@@ -32,14 +35,14 @@ namespace eindprojectGameDev
             _graphics.PreferredBackBufferWidth = GlobalSettings.Width;
             _graphics.ApplyChanges();
             */
-            hero = new Hero(_heroTexture, new PlayerMovement());
+            hero = new Hero(_heroTexture, _colorTexture, new PlayerMovement());
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _heroTexture = Content.Load<Texture2D>("GoblinHero");
-
+            _colorTexture = Content.Load<Texture2D>("Red_rectangle");
             // TODO: use this.Content to load your game content here
         }
 
