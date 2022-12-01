@@ -10,7 +10,7 @@ namespace eindprojectGameDev.Characters
     internal class Animation
     {
         public AnimationFrame CurrentFrame { get; set; }
-        private List<AnimationFrame> frames;
+        public List<AnimationFrame> frames;
         private int counter;
         private double secondCounter = 0;
 

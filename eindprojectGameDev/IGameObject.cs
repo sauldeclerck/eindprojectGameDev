@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using eindprojectGameDev.Characters;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace eindprojectGameDev
 {
     internal interface IGameObject
     {
-        public int Health { get; set; }
+        public Health Health { get; set; }
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
     }
