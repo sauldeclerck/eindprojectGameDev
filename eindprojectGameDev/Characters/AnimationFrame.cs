@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eindprojectGameDev
+namespace eindprojectGameDev.Characters
 {
     internal class AnimationFrame
     {

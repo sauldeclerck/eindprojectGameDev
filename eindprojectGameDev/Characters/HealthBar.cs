@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using eindprojectGameDev.interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace eindprojectGameDev.Characters
         }
         public void Update(ICharacter _character)
         {
-            healthBarRectangle = new Rectangle((int)_character.Position.X, (int)_character.Position.Y-20, _character.Health.health/2, 10);
+            healthBarRectangle = new Rectangle((int)_character.Position.X+50, (int)_character.Position.Y+20, _character.Health.health/2, 10);
         }
 
         public void Draw(SpriteBatch _spriteBatch)

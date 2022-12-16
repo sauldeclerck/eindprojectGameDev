@@ -1,4 +1,5 @@
 ﻿using eindprojectGameDev.Characters;
+using eindprojectGameDev.interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -17,6 +18,8 @@ namespace eindprojectGameDev.Map
         public Texture2D texture;
         public Vector2 Position { get; set; }
         public Health Health { get; set; }
+        public Rectangle Hitbox { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         //public CollideWithEvent CollideWithEvent { get; set; }
 
         public Background(Texture2D texture, int x, int y)

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using eindprojectGameDev.interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eindprojectGameDev
+namespace eindprojectGameDev.interfaces
 {
     internal interface ICharacter
     {

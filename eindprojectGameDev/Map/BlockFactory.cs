@@ -123,58 +123,12 @@ namespace eindprojectGameDev.Map
                                     Tileset[k, l] = new Block(2, 2, l * 16, (16 * k), texture);
                                 }
                             }
-
                             break;
                         default:
                             Tileset[k, l] = null;
                             break;
                     }
                 }
-                    //if (blockArray[k, l] == '.')
-                    //{
-                    //    if (blockArray[k,l-1] == '.')
-                    //    {
-                    //        Tileset[k, l] = new Block(0, 0, l * 16, (16 * k), texture);
-
-                    //    }
-                    //    else if (true)
-                    //    {
-
-                    //    }
-                    //    if (l==0)
-                    //    {
-                    //    }
-                    //    else
-                    //    {
-                    //        Tileset[k, l] = new Block(1, 0, l * 16, (16 * k), texture);
-                    //    }
-                    //}
-                    //else if (blockArray[k, l] == ',')
-                    //{
-                    //    if (k == 0)
-                    //    {
-                    //        Tileset[k, l] = new Block(0, 1, l * 16, (16 * k), texture);
-                    //    }
-                    //    else
-                    //    {
-                    //        Tileset[k, l] = new Block(1, 1, l * 16, (16 * k), texture);
-                    //    }
-                    //}
-                    //else if (blockArray[k, l] == '-')
-                    //{
-                    //    if (k == 0)
-                    //    {
-                    //        Tileset[k, l] = new Block(0, 2, l * 16, 16*k, texture);
-                    //    }
-                    //    else
-                    //    {
-                    //        Tileset[k, l] = new Block(1, 2, l * 16, 16 * k, texture);
-                    //    }
-                    //}
-                    //else if (blockArray[k, l] == '#')
-                    //{
-                    //    Tileset[k, l] = null;
-                    //}
             return Tileset;
         }
     }

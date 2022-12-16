@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eindprojectGameDev
+namespace eindprojectGameDev.interfaces
 {
     internal interface IGameObject
     {
+        public Rectangle BoundingBox { get; set; }
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
     }
