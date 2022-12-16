@@ -13,17 +13,15 @@ using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
 namespace eindprojectGameDev.Characters
 {
-    internal class Hero : IGameObject
+    internal class Hero : ICharacter
     {
-        public Vector2 Position { get; set; }
+        public new Vector2 Position { get; set; }
         private Health health;
-        public Health Health { get => health; set => this.health = value; }
+        public new Health Health { get => health; set => this.health = value; }
         private IInputReader inputReader;
         public Vector2 position;
         private int speed = 5;
         private Texture2D heroTexture;
-        private Texture2D heartTexture;
-        private List<Rectangle> hearts = new List<Rectangle>();
         private int spriteWidth = 96;
         private int spriteHeight = 96;
         private Animation currentAnimation;
@@ -31,17 +29,16 @@ namespace eindprojectGameDev.Characters
         public HeroStates State = HeroStates.idle;
         Animation[] animations = new Animation[4]
         {
-                new Animation(), //Idle (0)
-                new Animation(), //Walk (1)
-                new Animation(), //Fight (2)
-                new Animation() //Die (3)
+            new Animation(), //Idle (0)
+            new Animation(), //Walk (1)
+            new Animation(), //Fight (2)
+            new Animation() //Die (3)
         };
 
         public Hero(Texture2D heroTexture, Texture2D heartTexture, IInputReader inputReader)
         {
             this.heroTexture = heroTexture;
             this.inputReader = inputReader;
-            this.heartTexture = heartTexture;
             position = new Vector2(100, 100);
             Health = new Health(3,100);
             this.ResetLives();
@@ -103,7 +100,6 @@ namespace eindprojectGameDev.Characters
                 {
                     Health.health = Health.maxHealth;
                     Health.lives--;
-                    hearts.Remove(hearts.Last());
                     State = HeroStates.idle;
                     currentAnimation = animations[0];
                     animations[0].GetFramesFromTextureProperties(2 * 160, 0 * 96, 2, 96);
@@ -118,12 +114,6 @@ namespace eindprojectGameDev.Characters
 
         public void Draw(SpriteBatch _spriteBatch)
         {
-            // draw lives according to the amount of lives
-            for (int i = 0; i < hearts.Count; i++)
-            {
-                _spriteBatch.Draw(heartTexture, hearts[i], Color.White);
-            }
-            //draw healthbar
             //draw hero
             switch (State)
             {
@@ -158,10 +148,10 @@ namespace eindprojectGameDev.Characters
                 this.TakeDamage(2);
                 position.X = 0 - spriteWidth / 2;
             }
-            else if (Position.X >= GlobalSettings.Width)
+            else if (position.X >= GlobalSettings.Width - spriteWidth/2)
             {
                 this.TakeDamage(2);
-                position.X = GlobalSettings.Width;
+                position.X = GlobalSettings.Width - spriteWidth;
             }
             //check out of bounds vertical
             if (Position.Y >= GlobalSettings.Height)
@@ -179,10 +169,6 @@ namespace eindprojectGameDev.Characters
         public void ResetLives()
         {
             this.health = new Health(3,100);
-            for (int i = 0; i < 3; i++)
-            {
-                hearts.Add(new Rectangle(30 * i, 0, 20, 20));
-            }
         }
         public void TakeDamage(int amount)
         {

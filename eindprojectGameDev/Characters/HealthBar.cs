@@ -17,9 +17,9 @@ namespace eindprojectGameDev.Characters
         {
             this.healthTexture = healthTexture;
         }
-        public void Update(IGameObject _gameObject)
+        public void Update(ICharacter _character)
         {
-            healthBarRectangle = new Rectangle((int)_gameObject.Position.X, (int)_gameObject.Position.Y-20, _gameObject.Health.health/2, 10);
+            healthBarRectangle = new Rectangle((int)_character.Position.X, (int)_character.Position.Y-20, _character.Health.health/2, 10);
         }
 
         public void Draw(SpriteBatch _spriteBatch)

@@ -1,4 +1,5 @@
 ﻿using eindprojectGameDev.Characters;
+using eindprojectGameDev.Map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,10 +13,13 @@ namespace eindprojectGameDev
 {
     public class Game1 : Game
     {
+        private Level1 lvl1;
         private Texture2D _heroTexture;
         private Texture2D _colorTexture;
         private Texture2D _heartTexture;
         private Texture2D _Hitbox;
+        private Texture2D _BackgroundTexture;
+        private Texture2D _BlockTexture;
         public GameStates gameState = GameStates.menu;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -24,7 +28,10 @@ namespace eindprojectGameDev
         private Hero hero;
         private Hitbox hitboxHero;
         private HealthBar healthBarHero;
+        private Hearts hearts;
         
+        //level setup
+        private Background background;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -36,16 +43,18 @@ namespace eindprojectGameDev
         {
             // TODO: Add your initialization logic here
             base.Initialize();
-            
             _graphics.IsFullScreen = true;
             _graphics.PreferredBackBufferHeight = GlobalSettings.Height;
             _graphics.PreferredBackBufferWidth = GlobalSettings.Width;
             _graphics.ApplyChanges();
-            
             //hero initializing
             hero = new Hero(_heroTexture, _heartTexture, new PlayerMovement());
             hitboxHero = new Hitbox(_Hitbox, 96 - 50, 96 - 45);
+            
             healthBarHero = new HealthBar(_colorTexture);
+            hearts = new Hearts(_heartTexture);
+            background = new Background(_BackgroundTexture, 1920, 1080);
+            lvl1 = new Level1(_BlockTexture);
         }
 
         protected override void LoadContent()
@@ -56,6 +65,9 @@ namespace eindprojectGameDev
             _Hitbox = new Texture2D(GraphicsDevice, 1, 1);
             _Hitbox.SetData(new[] { Color.White });
             _heartTexture = Content.Load<Texture2D>("heart");
+            _BackgroundTexture = Content.Load<Texture2D>("background");
+            _BlockTexture = Content.Load<Texture2D>("tileset");
+            _Hitbox.SetData(new[] { Color.Green });
             // TODO: use this.Content to load your game content here
         }
 
@@ -68,7 +80,7 @@ namespace eindprojectGameDev
             hero.Update(gameTime);
             hitboxHero.Update(hero);
             healthBarHero.Update(hero);
-
+            hearts.Update(hero);
             base.Update(gameTime);
         }
 
@@ -77,9 +89,12 @@ namespace eindprojectGameDev
             GraphicsDevice.Clear(Color.CornflowerBlue);
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
+            background.Draw(_spriteBatch);
             hero.Draw(_spriteBatch);
             hitboxHero.Draw(_spriteBatch);
             healthBarHero.Draw(_spriteBatch);
+            hearts.Draw(_spriteBatch);
+            lvl1.Draw(_spriteBatch);
             _spriteBatch.End();
             base.Draw(gameTime);
         }

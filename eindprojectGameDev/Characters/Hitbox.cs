@@ -20,9 +20,9 @@ namespace eindprojectGameDev.Characters
             this.height = height;
         }
 
-        public void Update(IGameObject _gameObject)
+        public void Update(ICharacter _character)
         {
-            hitboxRectangle = new Rectangle((int)_gameObject.Position.X, (int)_gameObject.Position.Y, width, height);
+            hitboxRectangle = new Rectangle((int)_character.Position.X, (int)_character.Position.Y, width, height);
         }
 
         public void Draw(SpriteBatch _spriteBatch)

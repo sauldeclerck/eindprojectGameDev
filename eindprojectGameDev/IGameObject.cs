@@ -11,8 +11,6 @@ namespace eindprojectGameDev
 {
     internal interface IGameObject
     {
-        public Vector2 Position { get; set; }
-        public Health Health { get; set; }
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
     }
