@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,22 +21,26 @@ namespace eindprojectGameDev.Characters
     internal class Hero : ICharacter
     {
         #region initialize
+        public enum HeroStates { walkingRight, walkingLeft, idle, attackingRight, attackingLeft, dead }
+        public Health Health { get => health; set => this.health = value; }
         public Vector2 Position { get; set; }
-        public Vector2 OldPosition { get; set; }
+        private Texture2D RedTexture;
         private Health health;
         public Rectangle hitbox;
-        public Health Health { get => health; set => this.health = value; }
+        public Rectangle nextHitboxH { get; set; }
+        public Rectangle nextHitboxV { get; set; }
+        public Vector2 nextPositionH { get; set; }
+        public Vector2 nextPositionV { get; set; }
         private IInputReader inputReader;
         public Vector2 position;
         private int speed = 5;
         private Texture2D heroTexture;
-        private int spriteWidth = 96,spriteHeight = 96;
-        public enum HeroStates { walkingRight, walkingLeft, idle, attackingRight, attackingLeft, dead }
+        private int spriteWidth = 96, spriteHeight = 96;
         public HeroStates State = HeroStates.idle;
         private Animation currentAnimation;
         private bool IsJumping = false;
         private int jumpHeight = 10;
-        private int jumpCounter = 0;
+        private int jumpCounter = 5;
         private int jumpLength = 5;
         private bool onGround = false;
         Animation[] animations = new Animation[4]
@@ -46,55 +51,59 @@ namespace eindprojectGameDev.Characters
             new Animation() //Die (3)
         };
         #endregion
-        public Hero(Texture2D heroTexture, IInputReader inputReader)
+        public Hero()
         {
-            this.heroTexture = heroTexture;
-            this.inputReader = inputReader;
-            position = new Vector2(100, 100);
-            Health = new Health(3,100);
+            this.heroTexture = GameManager.Content.Load<Texture2D>("GoblinHero");
+            this.RedTexture = GameManager.Content.Load<Texture2D>("Red_Rectangle");
+            this.inputReader = new PlayerMovement();
+            position = new Vector2(170, 170);
+            Health = new Health(3, 100);
             this.ResetLives();
         }
 
         public void Update(GameTime gameTime)
         {
-            Position = new Vector2((int)position.X, (int)position.Y);
-            //health--;
-            State = HeroStates.idle;
-            currentAnimation = animations[0];
-            var direction= inputReader.ReadMovementInput();
-            hitbox = new Rectangle((int)position.X+50, (int)position.Y+50, spriteWidth-50, spriteHeight-50);
-            MoveCharacter(direction);
-            Jump();
-            Gravity();
-            direction *= speed;
+            var direction = inputReader.ReadMovementInput();
 
-            //create New Position
-            if (!this.CheckCollision())
+            Position = new Vector2((int)position.X, (int)position.Y);
+            nextPositionH = position;
+            nextPositionV = position;
+            hitbox = new Rectangle((int)position.X + 50, (int)position.Y + 50, spriteWidth - 50, spriteHeight - 50);
+            nextPositionV = Gravity(nextPositionV);
+            direction *= speed;
+            nextPositionH += direction;
+            nextHitboxH = new Rectangle((int)nextPositionH.X+50, (int)nextPositionH.Y+50, spriteWidth - 50, spriteHeight - 50);
+            nextHitboxV = new Rectangle((int)nextPositionV.X+50, (int)nextPositionV.Y+50, spriteWidth - 50, spriteHeight - 50);
+            //MessageBox.Show(nextPosition.X + " " + nextPosition.Y);
+
+            //if (!CheckCollisionHorizontal(nextHitbox))
+            //{
+            //    position.X = nextPosition.X;
+            //}
+            //if (!CheckCollisionVertical(nextHitbox))
+            //{
+            //    position.Y = nextPosition.Y;
+            //    onGround = false;
+            //}
+            //else
+            //{
+            //    onGround = true;
+            //}
+
+            if (!CheckCollision(nextHitboxH))
             {
-                position += direction;
+                position.X = nextPositionH.X;
+            }
+            if (!CheckCollision(nextHitboxV))
+            {
+                position.Y = nextPositionV.Y;
                 onGround = false;
             }
             else
             {
-                position = OldPosition;
                 onGround = true;
             }
-            if ( State == HeroStates.dead && animations[3].CurrentFrame == animations[3].frames[5])
-            {
-                if (this.Health.lives > 0)
-                {
-                    Health.health = Health.maxHealth;
-                    Health.lives--;
-                    State = HeroStates.idle;
-                    currentAnimation = animations[0];
-                    animations[0].GetFramesFromTextureProperties(2 * 160, 0 * 96, 2, 96);
-                }
-                else
-                {
-                    this.ResetLives();
-                }
-            }
-            OldPosition = Position;
+            SetAnimation(direction);
             currentAnimation.Update(gameTime);
         }
 
@@ -116,23 +125,23 @@ namespace eindprojectGameDev.Characters
                     _spriteBatch.Draw(heroTexture, position, animations[2].CurrentFrame.SourceRectangle, Color.White);
                     break;
                 case HeroStates.attackingLeft:
-                    _spriteBatch.Draw(heroTexture, position, animations[2].CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0,0), 1f, SpriteEffects.FlipHorizontally, 1);
+                    _spriteBatch.Draw(heroTexture, position, animations[2].CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), 1f, SpriteEffects.FlipHorizontally, 1);
                     break;
                 case HeroStates.dead:
-                        _spriteBatch.Draw(heroTexture, position, animations[3].CurrentFrame.SourceRectangle, Color.White);
+                    _spriteBatch.Draw(heroTexture, position, animations[3].CurrentFrame.SourceRectangle, Color.White);
                     break;
                 default:
                     break;
             }
         }
 
-        public bool CheckCollision()
+        public bool CheckCollision(Rectangle nextPosition)
         {
             foreach (var item in GameManager.defaultBlocks)
             {
                 if (item != null)
                 {
-                    if (this.hitbox.Intersects(item.Hitbox))
+                    if (nextPosition.Intersects(item.Hitbox))
                         return true;
                     else
                         continue;
@@ -140,9 +149,61 @@ namespace eindprojectGameDev.Characters
             }
             return false;
         }
+        public bool CheckCollisionLeft(Rectangle hitbox)
+        {
+            foreach (var item in GameManager.defaultBlocks)
+            {
+                if (item != null)
+                {
+                    //left and right
+                    if (hitbox.Right > item.Hitbox.Left &&
+                        hitbox.Left < item.Hitbox.Left &&
+                        hitbox.Bottom > item.Hitbox.Top &&
+                        hitbox.Top < item.Hitbox.Bottom)
+                        return true;
+                }
+            }
+            return false;
+        }
+        public bool CheckCollisionRight(Rectangle hitbox)
+        {
+            foreach (var item in GameManager.defaultBlocks)
+            {
+                if (item != null)
+                {
+                    //left and right
+                    if (hitbox.Left < item.BoundingBox.Right &&
+                        hitbox.Right > item.BoundingBox.Right &&
+                        hitbox.Bottom > item.BoundingBox.Top &&
+                        hitbox.Top < item.BoundingBox.Bottom)
+                        return true;
+                }
+            }
+            return false;
+        }
+        public bool CheckCollisionVertical(Rectangle hitbox)
+        {
+            foreach (var item in GameManager.defaultBlocks)
+            {
+                if (item != null)
+                {
+                    //top and bottom
+                    if ((hitbox.Bottom > item.Hitbox.Top &&
+                        hitbox.Top < item.Hitbox.Top &&
+                        hitbox.Right > item.Hitbox.Left &&
+                        hitbox.Left < item.Hitbox.Right) &&
+                        (hitbox.Top < item.Hitbox.Bottom &&
+                        hitbox.Bottom > item.Hitbox.Bottom &&
+                        hitbox.Right > item.Hitbox.Left &&
+                        hitbox.Left < item.Hitbox.Right))
+                        return true;
+                }
+            }
+            return false;
+        }
         public void ResetLives()
         {
-            this.health = new Health(3,100);
+            this.health = new Health(3, 100);
         }
         public void TakeDamage(int amount)
         {
@@ -164,19 +225,21 @@ namespace eindprojectGameDev.Characters
             IsJumping = false;
             jumpCounter = 0;
         }
-        private void Gravity()
+        private Vector2 Gravity(Vector2 Position)
         {
-            if (!IsJumping)
-            {
-                onGround = false;
-                position.Y += jumpCounter;
-            }
-            else
-            {
-                onGround = true;
-            }
+            Position.Y += jumpCounter;
+
+            //if (!onGround)
+            //{
+            //    Position.Y += jumpCounter;
+            //}
+            //else
+            //{
+            //    onGround = true;
+            //}
+            return Position;
         }
-        private void MoveCharacter(Vector2 direction)
+        private void SetAnimation(Vector2 direction)
         {
             if (direction.X < 0)
             {

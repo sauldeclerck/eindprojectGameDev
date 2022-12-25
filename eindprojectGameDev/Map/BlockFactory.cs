@@ -78,15 +78,15 @@ namespace eindprojectGameDev.Map
                             {
                                 if (previousChar == '#')
                                 {
-                                    Tileset[k, l] = new Block(0, 0, l * 16, (16 * k), texture);
+                                    Tileset[k, l] = new Block(0, 0, l * 16, (16 * k));
                                 }
                                 else if (nextChar == '#')
                                 {
-                                    Tileset[k, l] = new Block(0, 2, l * 16, (16 * k), texture);
+                                    Tileset[k, l] = new Block(0, 2, l * 16, (16 * k));
                                 }
                                 else
                                 {
-                                    Tileset[k, l] = new Block(0, 1, l * 16, (16 * k), texture);
+                                    Tileset[k, l] = new Block(0, 1, l * 16, (16 * k));
                                 }
                             }
 
@@ -95,15 +95,15 @@ namespace eindprojectGameDev.Map
                             {
                                 if (previousChar == '#' && nextChar == '.')
                                 {
-                                    Tileset[k, l] = new Block(1, 0, l * 16, (16 * k), texture);
+                                    Tileset[k, l] = new Block(1, 0, l * 16, (16 * k));
                                 }
                                 else if (previousChar == '.' && nextChar == '.')
                                 {
-                                    Tileset[k, l] = new Block(1, 1, l * 16, (16 * k), texture);
+                                    Tileset[k, l] = new Block(1, 1, l * 16, (16 * k));
                                 }
                                 else if (previousChar == '.' && nextChar == '#')
                                 {
-                                    Tileset[k, l] = new Block(1, 2, l * 16, (16 * k), texture);
+                                    Tileset[k, l] = new Block(1, 2, l * 16, (16 * k));
                                 }
                             }
 
@@ -112,15 +112,15 @@ namespace eindprojectGameDev.Map
                             {
                                 if (previousChar == '#')
                                 {
-                                    Tileset[k, l] = new Block(2, 0, l * 16, (16 * k), texture);
+                                    Tileset[k, l] = new Block(2, 0, l * 16, (16 * k));
                                 }
                                 else if (previousChar == '.' && nextChar == '.')
                                 {
-                                    Tileset[k, l] = new Block(2, 1, l * 16, (16 * k), texture);
+                                    Tileset[k, l] = new Block(2, 1, l * 16, (16 * k));
                                 }
                                 else if (previousChar == '.' && nextChar == '#')
                                 {
-                                    Tileset[k, l] = new Block(2, 2, l * 16, (16 * k), texture);
+                                    Tileset[k, l] = new Block(2, 2, l * 16, (16 * k));
                                 }
                             }
                             break;

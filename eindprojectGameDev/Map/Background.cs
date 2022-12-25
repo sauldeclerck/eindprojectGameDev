@@ -5,39 +5,23 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace eindprojectGameDev.Map
 {
-    internal class Background : IGameObject
+    internal static class Background
     {
-        public Rectangle BoundingBox { get; set; }
-        public bool Passable { get; set; }
-        public Color Color { get; set; }
-        public Texture2D texture;
-        public Vector2 Position { get; set; }
-        public Health Health { get; set; }
-        public Rectangle Hitbox { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        //public CollideWithEvent CollideWithEvent { get; set; }
-
-        public Background(Texture2D texture, int x, int y)
+        private static Texture2D backgroundTexture;
+    
+        public static void Draw(SpriteBatch spriteBatch)
         {
-            Position = new Vector2(0, 0);
-            BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, GlobalSettings.Width, GlobalSettings.Height);
-            Color = Color.Purple;
-            this.texture = texture;
-            //CollideWithEvent = new NoEvent();
+            spriteBatch.Draw(backgroundTexture, new Rectangle(0,0,GlobalSettings.Width, GlobalSettings.Height), Color.Purple);
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public static void Initialize(Texture2D texture)
         {
-            spriteBatch.Draw(texture, BoundingBox, Color);
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            throw new NotImplementedException();
+            backgroundTexture = texture;
         }
     }
 }
