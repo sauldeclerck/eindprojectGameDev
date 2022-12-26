@@ -1,4 +1,5 @@
-﻿using eindprojectGameDev.interfaces;
+﻿using eindprojectGameDev.Characters.Animations;
+using eindprojectGameDev.interfaces;
 using eindprojectGameDev.Map;
 using eindprojectGameDev.World;
 using Microsoft.Xna.Framework;
@@ -82,10 +83,11 @@ namespace eindprojectGameDev.Characters
             Jump();
             nextHitboxH = new Rectangle((int)nextPositionH.X + 50, (int)nextPositionH.Y + 50, spriteWidth - 50, spriteHeight - 50);
             nextHitboxV = new Rectangle((int)nextPositionV.X + 50, (int)nextPositionV.Y + 50, spriteWidth - 50, spriteHeight - 50);
-            
+
             if (!CheckCollision(nextHitboxH)) position.X = nextPositionH.X;
-            
-            if (!CheckCollision(nextHitboxV)){
+
+            if (!CheckCollision(nextHitboxV))
+            {
                 position.Y = nextPositionV.Y;
                 onGround = false;
             }
@@ -172,7 +174,7 @@ namespace eindprojectGameDev.Characters
                     nextPositionV += new Vector2(0, jumpSpeed);//Making it go up
                     jumpSpeed += 1;//Some math (explained later)
                 }
-                
+
                 if (nextPositionV.Y >= startY)
                 //If it's farther than ground
                 {

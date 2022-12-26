@@ -1,4 +1,5 @@
-﻿using eindprojectGameDev.interfaces;
+﻿using eindprojectGameDev.Characters.Animations;
+using eindprojectGameDev.interfaces;
 using eindprojectGameDev.Map;
 using eindprojectGameDev.World;
 using Microsoft.Xna.Framework;
@@ -59,17 +60,22 @@ namespace eindprojectGameDev.Characters.Enemies
         }
         public virtual void Draw(SpriteBatch _spriteBatch)
         {
-            if (isActive) {
-                switch (movement.X)
+            if (animation.CurrentFrame != null)
+            {
+                if (isActive)
                 {
-                    case <= 0:
-                        _spriteBatch.Draw(Texture, Position, animation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.FlipHorizontally, 0);
-                        break;
-                    case > 0:
-                        _spriteBatch.Draw(Texture, Position, animation.CurrentFrame.SourceRectangle, Color.White);
-                        break;
+                    switch (movement.X)
+                    {
+                        case <= 0:
+                            _spriteBatch.Draw(Texture, Position, animation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.FlipHorizontally, 0);
+                            break;
+                        case > 0:
+                            _spriteBatch.Draw(Texture, Position, animation.CurrentFrame.SourceRectangle, Color.White);
+                            break;
+                    }
                 }
             }
+            
         }
 
         public bool CollidingHorizontal()

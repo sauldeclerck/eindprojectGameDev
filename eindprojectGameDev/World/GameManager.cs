@@ -1,5 +1,6 @@
 ﻿using eindprojectGameDev.interfaces;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace eindprojectGameDev.World
     {
         public static ContentManager Content;
         public static List<Block> defaultBlocks = new List<Block>();
+        public static MouseState MouseState = new MouseState();
         public static void ResetBlocks()
         {
             defaultBlocks.Clear();

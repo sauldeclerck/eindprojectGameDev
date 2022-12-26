@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace eindprojectGameDev.World
 {
-    public enum GameStates { menu, level1, level2, gameover }
+    public enum GameStates { menu, level1, level2, gameover, exit }
 }

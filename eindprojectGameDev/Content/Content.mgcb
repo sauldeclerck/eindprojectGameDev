@@ -37,6 +37,13 @@
 /processorParam:TextureFormat=Color
 /build:Cacodaemon Sprite Sheet.png
 
+#begin GameFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:GameFont.spritefont
+
 #begin GoblinHero.png
 /importer:TextureImporter
 /processor:TextureProcessor
