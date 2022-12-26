@@ -1,10 +1,13 @@
 ﻿using eindprojectGameDev.Characters;
+using eindprojectGameDev.Characters.Enemies;
+using eindprojectGameDev.interfaces;
 using eindprojectGameDev.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct2D1;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
@@ -17,7 +20,8 @@ namespace eindprojectGameDev.Map
     {
         static Block[,] tileset;
         //hero setup
-        private static Hero hero;
+        public static Hero hero;
+        public static List<Enemy> enemies = new List<Enemy>();
         private static HealthBar healthBarHero;
         private static Hearts hearts;
 
@@ -27,6 +31,10 @@ namespace eindprojectGameDev.Map
             hero = new Hero();
             healthBarHero = new HealthBar(GameManager.Content.Load<Texture2D>("Red_rectangle"));
             hearts = new Hearts(GameManager.Content.Load<Texture2D>("Heart"));
+        }
+        public static void AddEnemy(Enemy enemy)
+        {
+            enemies.Add(enemy);
         }
         public static void ChangeBackground(Texture2D _backgroundTexture)
         {
@@ -43,6 +51,10 @@ namespace eindprojectGameDev.Map
         public static void Update(GameTime gameTime)
         {
             hero.Update(gameTime);
+            foreach (var item in enemies)
+            {
+                item.Update(gameTime);
+            }
             healthBarHero.Update(hero.Position, hero.Health);
             hearts.Update(hero);
         }
@@ -51,6 +63,10 @@ namespace eindprojectGameDev.Map
             hero.Draw(_spriteBatch);
             healthBarHero.Draw(_spriteBatch);
             hearts.Draw(_spriteBatch);
+            foreach (var item in enemies)
+            {
+                item.Draw(_spriteBatch);
+            }
             foreach (var tile in tileset)
             {
                 if (tile != null)
@@ -58,6 +74,11 @@ namespace eindprojectGameDev.Map
                     tile.Draw(_spriteBatch);
                 }
             }
+        }
+
+        public static void DoDamage(int amount, ICharacter character)
+        {
+            character.TakeDamage(amount);
         }
     }
 }

@@ -15,5 +15,6 @@ namespace eindprojectGameDev.interfaces
         public Health Health { get; set; }
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
+        void TakeDamage(int amount);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using eindprojectGameDev.interfaces;
+using eindprojectGameDev.Map;
 using eindprojectGameDev.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,7 +25,6 @@ namespace eindprojectGameDev.Characters
         public enum HeroStates { walkingRight, walkingLeft, idle, attackingRight, attackingLeft, dead }
         public Health Health { get => health; set => this.health = value; }
         public Vector2 Position { get; set; }
-        private Texture2D RedTexture;
         private Health health;
         public Rectangle hitbox;
         public Rectangle nextHitboxH { get; set; }
@@ -39,10 +39,11 @@ namespace eindprojectGameDev.Characters
         public HeroStates State = HeroStates.idle;
         private Animation currentAnimation;
         private bool IsJumping = false;
-        private int jumpHeight = 10;
-        private int jumpCounter = 5;
-        private int jumpLength = 5;
+        private int jumpSpeed = 0;
+        private int startY = 0;
+        private float gravityForce = 4.5f;
         private bool onGround = false;
+        private bool canJump = false;
         Animation[] animations = new Animation[4]
         {
             new Animation(), //Idle (0)
@@ -54,15 +55,20 @@ namespace eindprojectGameDev.Characters
         public Hero()
         {
             this.heroTexture = GameManager.Content.Load<Texture2D>("GoblinHero");
-            this.RedTexture = GameManager.Content.Load<Texture2D>("Red_Rectangle");
             this.inputReader = new PlayerMovement();
             position = new Vector2(170, 170);
             Health = new Health(3, 100);
-            this.ResetLives();
+            this.ResetHero();
         }
 
         public void Update(GameTime gameTime)
         {
+            if (this.health.health < 0)
+            {
+                this.health.lives -= 1;
+                this.health.health = this.health.maxHealth;
+                ResetHero();
+            }
             var direction = inputReader.ReadMovementInput();
 
             Position = new Vector2((int)position.X, (int)position.Y);
@@ -72,37 +78,23 @@ namespace eindprojectGameDev.Characters
             nextPositionV = Gravity(nextPositionV);
             direction *= speed;
             nextPositionH += direction;
-            nextHitboxH = new Rectangle((int)nextPositionH.X+50, (int)nextPositionH.Y+50, spriteWidth - 50, spriteHeight - 50);
-            nextHitboxV = new Rectangle((int)nextPositionV.X+50, (int)nextPositionV.Y+50, spriteWidth - 50, spriteHeight - 50);
-            //MessageBox.Show(nextPosition.X + " " + nextPosition.Y);
-
-            //if (!CheckCollisionHorizontal(nextHitbox))
-            //{
-            //    position.X = nextPosition.X;
-            //}
-            //if (!CheckCollisionVertical(nextHitbox))
-            //{
-            //    position.Y = nextPosition.Y;
-            //    onGround = false;
-            //}
-            //else
-            //{
-            //    onGround = true;
-            //}
-
-            if (!CheckCollision(nextHitboxH))
-            {
-                position.X = nextPositionH.X;
-            }
-            if (!CheckCollision(nextHitboxV))
-            {
+            startY = (int)nextPositionV.Y;
+            Jump();
+            nextHitboxH = new Rectangle((int)nextPositionH.X + 50, (int)nextPositionH.Y + 50, spriteWidth - 50, spriteHeight - 50);
+            nextHitboxV = new Rectangle((int)nextPositionV.X + 50, (int)nextPositionV.Y + 50, spriteWidth - 50, spriteHeight - 50);
+            
+            if (!CheckCollision(nextHitboxH)) position.X = nextPositionH.X;
+            
+            if (!CheckCollision(nextHitboxV)){
                 position.Y = nextPositionV.Y;
                 onGround = false;
             }
             else
             {
                 onGround = true;
+                canJump = true;
             }
+            CheckEnemyHit();
             SetAnimation(direction);
             currentAnimation.Update(gameTime);
         }
@@ -142,68 +134,29 @@ namespace eindprojectGameDev.Characters
                 if (item != null)
                 {
                     if (nextPosition.Intersects(item.Hitbox))
+                    {
                         return true;
+                    }
                     else
                         continue;
                 }
             }
             return false;
         }
-        public bool CheckCollisionLeft(Rectangle hitbox)
+        public void CheckEnemyHit()
         {
-            foreach (var item in GameManager.defaultBlocks)
+            foreach (var item in LevelManager.enemies)
             {
-                if (item != null)
+                if (hitbox.Intersects(item.hitbox))
                 {
-                    //left and right
-                    if (hitbox.Right > item.Hitbox.Left &&
-                        hitbox.Left < item.Hitbox.Left &&
-                        hitbox.Bottom > item.Hitbox.Top &&
-                        hitbox.Top < item.Hitbox.Bottom)
-                        return true;
+                    LevelManager.DoDamage(50, item);
+                    TakeDamage(50);
                 }
             }
-            return false;
         }
-        public bool CheckCollisionRight(Rectangle hitbox)
+        public void ResetHero()
         {
-            foreach (var item in GameManager.defaultBlocks)
-            {
-                if (item != null)
-                {
-                    //left and right
-                    if (hitbox.Left < item.BoundingBox.Right &&
-                        hitbox.Right > item.BoundingBox.Right &&
-                        hitbox.Bottom > item.BoundingBox.Top &&
-                        hitbox.Top < item.BoundingBox.Bottom)
-                        return true;
-                }
-            }
-            return false;
-        }
-        public bool CheckCollisionVertical(Rectangle hitbox)
-        {
-            foreach (var item in GameManager.defaultBlocks)
-            {
-                if (item != null)
-                {
-                    //top and bottom
-                    if ((hitbox.Bottom > item.Hitbox.Top &&
-                        hitbox.Top < item.Hitbox.Top &&
-                        hitbox.Right > item.Hitbox.Left &&
-                        hitbox.Left < item.Hitbox.Right) &&
-                        (hitbox.Top < item.Hitbox.Bottom &&
-                        hitbox.Bottom > item.Hitbox.Bottom &&
-                        hitbox.Right > item.Hitbox.Left &&
-                        hitbox.Left < item.Hitbox.Right))
-                        return true;
-                }
-            }
-            return false;
-        }
-        public void ResetLives()
-        {
-            this.health = new Health(3, 100);
+            this.position = new Vector2(170, 170);
         }
         public void TakeDamage(int amount)
         {
@@ -211,32 +164,37 @@ namespace eindprojectGameDev.Characters
         }
         private void Jump()
         {
-            if (inputReader.ReadIsJumping() && !IsJumping && onGround)
+            // credits => https://flatformer.blogspot.com/
+            if (IsJumping)
             {
-                IsJumping = true;
+                if (canJump)
+                {
+                    nextPositionV += new Vector2(0, jumpSpeed);//Making it go up
+                    jumpSpeed += 1;//Some math (explained later)
+                }
+                
+                if (nextPositionV.Y >= startY)
+                //If it's farther than ground
+                {
+                    nextPositionV = new Vector2(0, startY);//Then set it on
+                    canJump = false;
+                    IsJumping = false;
+                }
             }
-            if (!IsJumping) return;
-            if (!onGround)
+
+            else
             {
-                position.Y -= jumpHeight;
-                jumpCounter++;
+                if (inputReader.ReadIsJumping())
+                {
+                    IsJumping = true;
+                    canJump = false;
+                    jumpSpeed = -14;//Give it upward thrust
+                }
             }
-            if (jumpCounter != jumpLength) return;
-            IsJumping = false;
-            jumpCounter = 0;
         }
         private Vector2 Gravity(Vector2 Position)
         {
-            Position.Y += jumpCounter;
-
-            //if (!onGround)
-            //{
-            //    Position.Y += jumpCounter;
-            //}
-            //else
-            //{
-            //    onGround = true;
-            //}
+            Position.Y += gravityForce;
             return Position;
         }
         private void SetAnimation(Vector2 direction)

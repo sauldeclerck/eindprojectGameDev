@@ -40,3 +40,5 @@ C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin
 C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\Content\heart.xnb
 C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\Content\background.xnb
 C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\Content\tileset.xnb
+C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\Content\Cacodaemon Sprite Sheet.xnb
+C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\Content\Porcupine.xnb
