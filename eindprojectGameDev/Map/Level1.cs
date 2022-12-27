@@ -1,18 +1,23 @@
-﻿using eindprojectGameDev.Characters;
-using eindprojectGameDev.Characters.Enemies;
-using eindprojectGameDev.World;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Screens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using eindprojectGameDev.Characters;
+using eindprojectGameDev.Characters.Enemies;
+using eindprojectGameDev.World;
 
 namespace eindprojectGameDev.Map
 {
-    internal class Level1
+    public class Level1 : GameScreen
     {
+        private Texture2D backgroundTexture;
+        private Texture2D tileSetTexture;
+        private Rectangle backGroundRectangle = new Rectangle(0, 0, GlobalSettings.Width, GlobalSettings.Height);
+        private new Game1 Game => (Game1)base.Game;
         char[,] charArray = new char[67, 120]
         {
             { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
@@ -83,15 +88,57 @@ namespace eindprojectGameDev.Map
             { '.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.'},
             { '.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.'},
         };
-        Daemon Daemon = new Daemon(1100, 875);
-        Daemon Daemon2 = new Daemon(800, 910);
-        porcupine porcupine = new porcupine(680, 975);
-        public Level1(Texture2D _blocktexture)
+        private Block[,] BlockArray;
+        private Hero hero;
+        List<Enemy> enemies = new List<Enemy>();
+        private HealthBar healthBarHero;
+        private Hearts hearts;
+        public Level1(Game1 game) : base(game) { }
+
+        public override void LoadContent()
         {
-            LevelManager.ChangeSet(BlockFactory.CreateBlocks(charArray, _blocktexture));
-            LevelManager.AddEnemy(Daemon);
-            LevelManager.AddEnemy(Daemon2);
-            LevelManager.AddEnemy(porcupine);
+            base.LoadContent();
+            backgroundTexture = Content.Load<Texture2D>("background");
+            tileSetTexture = Content.Load<Texture2D>("tileset");
+            BlockArray = BlockFactory.CreateBlocks(charArray, tileSetTexture, Game.Content);
+            foreach (var item in BlockArray)
+            {
+                GameManager.defaultBlocks.Add(item);
+            }
+            hero = new Hero(Content);
+            healthBarHero = new HealthBar(Game.Content.Load<Texture2D>("Red_Rectangle"));
+            hearts = new Hearts(Game.Content.Load<Texture2D>("heart"));
+
+            enemies.Add(new Daemon(1100, 875, Content));
+            enemies.Add(new Daemon(800, 910, Content));
+            enemies.Add(new porcupine(680, 975, Content));
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            //hero.Update(gameTime);
+            healthBarHero.Update(hero.position, hero.Health);
+            hearts.Update(hero);
+            enemies.ForEach(enemy => enemy.Update(gameTime));
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            Game.GraphicsDevice.Clear(new Color(16, 139, 204));
+            Game._spriteBatch.Begin();
+            Game._spriteBatch.Draw(backgroundTexture, backGroundRectangle, Color.Purple);
+            enemies.ForEach(enemy => enemy.Draw(Game._spriteBatch));
+            foreach (var item in BlockArray)
+            {
+                if (item != null)
+                {
+                    item.Draw(Game._spriteBatch);
+                }
+            }
+            //hero.Draw(Game._spriteBatch);
+            healthBarHero.Draw(Game._spriteBatch);
+            hearts.Draw(Game._spriteBatch);
+            Game._spriteBatch.End();
         }
     }
 }

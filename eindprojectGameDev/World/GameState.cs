@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace eindprojectGameDev.World
 {
-    internal static class GameState
+    public static class GameState
     {
         public static GameStates gameState = GameStates.menu;
     }

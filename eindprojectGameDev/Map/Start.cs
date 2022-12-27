@@ -1,52 +1,53 @@
-﻿using eindprojectGameDev.interfaces;
-using eindprojectGameDev.World;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct2D1;
-using SharpDX.WIC;
+using MonoGame.Extended.Screens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using eindprojectGameDev.World;
+using SharpDX.Direct2D1;
 using System.Windows.Forms;
 using Button = eindprojectGameDev.World.Button;
-using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
 namespace eindprojectGameDev.Map
 {
-    internal class Start : IMenu
+    public class Start : GameScreen
     {
-        public bool isActive = true;
-        private Rectangle LevelRectangle = new Rectangle(100,0,200,100);
-        private Rectangle ExitRectangle = new Rectangle(100,300,200,100);
+        private new Game1 Game => (Game1)base.Game;
+        private Rectangle LevelRectangle = new Rectangle(100, 0, 200, 100);
+        private Texture2D backgroundTexture;
+        private Rectangle backGroundRectangle = new Rectangle(0, 0, GlobalSettings.Width, GlobalSettings.Height);
+        private Rectangle ExitRectangle = new Rectangle(100, 300, 200, 100);
         Button buttonLvl1;
         Button buttonExit;
-        public Start()
+        public Start(Game1 game) : base(game) { }
+
+        public override void LoadContent()
         {
-            buttonLvl1 = new Button(LevelRectangle,"Red_Rectangle", "Level 1");
-            buttonLvl1.onClick += delegate { isActive = false;GameState.gameState = GameStates.level1; };
-            buttonExit = new Button(ExitRectangle,"Red_Rectangle", "Exit");
-            buttonExit.onClick += delegate { isActive = false; GameState.gameState = GameStates.exit; };
+            base.LoadContent();
+            backgroundTexture = Content.Load<Texture2D>("background");
+            buttonLvl1 = new Button(LevelRectangle, "Red_Rectangle", "Level 1", Content);
+            buttonLvl1.onClick += delegate { Game.LoadLevel1(); };
+            buttonExit = new Button(ExitRectangle, "Red_Rectangle", "Exit", Content);
+            buttonExit.onClick += delegate { Application.Exit(); };
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Update(GameTime gameTime)
         {
-            if (isActive == true)
-            {
-                buttonLvl1.Draw(spriteBatch);
-                buttonExit.Draw(spriteBatch);
-            }
-            
+            buttonLvl1.Update();
+            buttonExit.Update();
         }
 
-        public void Update(GameTime gameTime)
+        public override void Draw(GameTime gameTime)
         {
-            if (isActive == true)
-            {
-                buttonLvl1.Update();
-                buttonExit.Update();
-            }
+            Game.GraphicsDevice.Clear(Color.White);
+            Game._spriteBatch.Begin();
+            Game._spriteBatch.Draw(backgroundTexture, backGroundRectangle, Color.Purple);
+            buttonLvl1.Draw(Game._spriteBatch);
+            buttonExit.Draw(Game._spriteBatch);
+            Game._spriteBatch.End();
         }
     }
 }

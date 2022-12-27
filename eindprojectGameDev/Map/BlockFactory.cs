@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct2D1;
 using SharpDX.Direct3D9;
 using System;
@@ -24,7 +25,7 @@ namespace eindprojectGameDev.Map
         //    return newBlock;
         //}
         enum blockOrder { first, middle, last };
-        public static Block[,] CreateBlocks(char[,] blockArray, Texture2D texture)
+        public static Block[,] CreateBlocks(char[,] blockArray, Texture2D texture, ContentManager content)
         {
             char previousChar = '#', currentChar = '#', nextChar = '#', upperChar = '#', underChar = '#';
             Block[,] Tileset = new Block[blockArray.GetLength(0), blockArray.GetLength(1)];
@@ -78,15 +79,15 @@ namespace eindprojectGameDev.Map
                             {
                                 if (previousChar == '#')
                                 {
-                                    Tileset[k, l] = new Block(0, 0, l * 16, (16 * k));
+                                    Tileset[k, l] = new Block(0, 0, l * 16, (16 * k), content);
                                 }
                                 else if (nextChar == '#')
                                 {
-                                    Tileset[k, l] = new Block(0, 2, l * 16, (16 * k));
+                                    Tileset[k, l] = new Block(0, 2, l * 16, (16 * k), content);
                                 }
                                 else
                                 {
-                                    Tileset[k, l] = new Block(0, 1, l * 16, (16 * k));
+                                    Tileset[k, l] = new Block(0, 1, l * 16, (16 * k), content);
                                 }
                             }
 
@@ -95,15 +96,15 @@ namespace eindprojectGameDev.Map
                             {
                                 if (previousChar == '#' && nextChar == '.')
                                 {
-                                    Tileset[k, l] = new Block(1, 0, l * 16, (16 * k));
+                                    Tileset[k, l] = new Block(1, 0, l * 16, (16 * k), content);
                                 }
                                 else if (previousChar == '.' && nextChar == '.')
                                 {
-                                    Tileset[k, l] = new Block(1, 1, l * 16, (16 * k));
+                                    Tileset[k, l] = new Block(1, 1, l * 16, (16 * k), content);
                                 }
                                 else if (previousChar == '.' && nextChar == '#')
                                 {
-                                    Tileset[k, l] = new Block(1, 2, l * 16, (16 * k));
+                                    Tileset[k, l] = new Block(1, 2, l * 16, (16 * k), content);
                                 }
                             }
 
@@ -112,15 +113,15 @@ namespace eindprojectGameDev.Map
                             {
                                 if (previousChar == '#')
                                 {
-                                    Tileset[k, l] = new Block(2, 0, l * 16, (16 * k));
+                                    Tileset[k, l] = new Block(2, 0, l * 16, (16 * k), content);
                                 }
                                 else if (previousChar == '.' && nextChar == '.')
                                 {
-                                    Tileset[k, l] = new Block(2, 1, l * 16, (16 * k));
+                                    Tileset[k, l] = new Block(2, 1, l * 16, (16 * k), content);
                                 }
                                 else if (previousChar == '.' && nextChar == '#')
                                 {
-                                    Tileset[k, l] = new Block(2, 2, l * 16, (16 * k));
+                                    Tileset[k, l] = new Block(2, 2, l * 16, (16 * k), content);
                                 }
                             }
                             break;

@@ -21,14 +21,15 @@ namespace eindprojectGameDev.Map
         static Block[,] tileset;
         //hero setup
         public static Hero hero;
+        public static int points = 0;
         public static List<Enemy> enemies = new List<Enemy>();
         private static HealthBar healthBarHero;
         private static Hearts hearts;
 
         public static void Initialize()
         {
-            Level1 lvl1 = new Level1(GameManager.Content.Load<Texture2D>("tileset"));
-            hero = new Hero();
+            //Level1 lvl1 = new Level1(GameManager.Content.Load<Texture2D>("tileset"));
+            //hero = new Hero();
             healthBarHero = new HealthBar(GameManager.Content.Load<Texture2D>("Red_rectangle"));
             hearts = new Hearts(GameManager.Content.Load<Texture2D>("Heart"));
         }
@@ -51,6 +52,7 @@ namespace eindprojectGameDev.Map
         public static void Update(GameTime gameTime)
         {
             hero.Update(gameTime);
+            points++;
             foreach (var item in enemies)
             {
                 item.Update(gameTime);
@@ -60,6 +62,7 @@ namespace eindprojectGameDev.Map
         }
         public static void Draw(SpriteBatch _spriteBatch)
         {
+            _spriteBatch.DrawString(GameManager.Content.Load<SpriteFont>("GameFont"), $"points {points}", new Vector2(10, 10), Color.Red);
             hero.Draw(_spriteBatch);
             healthBarHero.Draw(_spriteBatch);
             hearts.Draw(_spriteBatch);

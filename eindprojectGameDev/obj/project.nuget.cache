@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "BX/3OIZZqN0hEuBDwbBZajQeeKjiELRQARVronz2TgjyOOSog96Ih9Kuhpiw9OOQFTYYqInVGVc2iSFrtPYamA==",
+  "dgSpecHash": "UUjz10KbPugk1sviRffRSSZDDYtckjrvWFzGfkN0aYl+PJ9xrJtcfTqDQCJ5WET6ohyQuunjgejeiEcoV5Oicg==",
   "success": true,
   "projectFilePath": "C:\\Users\\saulb\\Desktop\\2ITSOF1\\gamedev\\eindprojectGameDev\\eindprojectGameDev\\eindprojectGameDev.csproj",
   "expectedPackageFiles": [
@@ -23,8 +23,10 @@
     "C:\\Users\\saulb\\.nuget\\packages\\microsoft.win32.primitives\\4.0.1\\microsoft.win32.primitives.4.0.1.nupkg.sha512",
     "C:\\Users\\saulb\\.nuget\\packages\\microsoft.win32.registry\\4.0.0\\microsoft.win32.registry.4.0.0.nupkg.sha512",
     "C:\\Users\\saulb\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
+    "C:\\Users\\saulb\\.nuget\\packages\\monogame.extended\\3.8.0\\monogame.extended.3.8.0.nupkg.sha512",
     "C:\\Users\\saulb\\.nuget\\packages\\monogame.framework.windowsdx\\3.8.1.303\\monogame.framework.windowsdx.3.8.1.303.nupkg.sha512",
     "C:\\Users\\saulb\\.nuget\\packages\\netstandard.library\\1.6.0\\netstandard.library.1.6.0.nupkg.sha512",
+    "C:\\Users\\saulb\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\saulb\\.nuget\\packages\\runtime.native.system\\4.0.0\\runtime.native.system.4.0.0.nupkg.sha512",
     "C:\\Users\\saulb\\.nuget\\packages\\runtime.native.system.io.compression\\4.1.0\\runtime.native.system.io.compression.4.1.0.nupkg.sha512",
     "C:\\Users\\saulb\\.nuget\\packages\\runtime.native.system.net.http\\4.0.1\\runtime.native.system.net.http.4.0.1.nupkg.sha512",

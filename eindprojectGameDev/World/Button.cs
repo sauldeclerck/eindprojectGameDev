@@ -1,6 +1,7 @@
 ﻿using eindprojectGameDev.interfaces;
 using eindprojectGameDev.Map;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -14,7 +15,7 @@ namespace eindprojectGameDev.World
 {
     internal class Button
     {
-        private SpriteFont SpriteFont = GameManager.Content.Load<SpriteFont>("GameFont");
+        private SpriteFont SpriteFont;
         private readonly Texture2D texture;
         private Rectangle mouseRect;
         private MouseState MouseState;
@@ -24,9 +25,10 @@ namespace eindprojectGameDev.World
         public string title;
         public Color color;
         Vector2 textPosition;
-        public Button(Rectangle rectangle, string fileName, string title)
+        public Button(Rectangle rectangle, string fileName, string title, ContentManager content)
         {
-            texture = GameManager.Content.Load<Texture2D>(fileName);
+            texture = content.Load<Texture2D>(fileName);
+            SpriteFont = content.Load<SpriteFont>("GameFont");
             Rectangle = rectangle;
             this.title = title;
         }

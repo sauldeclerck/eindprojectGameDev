@@ -3,6 +3,7 @@ using eindprojectGameDev.interfaces;
 using eindprojectGameDev.Map;
 using eindprojectGameDev.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct2D1;
@@ -53,13 +54,14 @@ namespace eindprojectGameDev.Characters
             new Animation() //Die (3)
         };
         #endregion
-        public Hero()
+        public Hero(ContentManager content)
         {
-            this.heroTexture = GameManager.Content.Load<Texture2D>("GoblinHero");
+            this.heroTexture = content.Load<Texture2D>("GoblinHero");
             this.inputReader = new PlayerMovement();
             position = new Vector2(170, 170);
             Health = new Health(3, 100);
             this.ResetHero();
+            currentAnimation = animations[0];
         }
 
         public void Update(GameTime gameTime)
