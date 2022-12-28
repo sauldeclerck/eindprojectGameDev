@@ -95,10 +95,13 @@ namespace eindprojectGameDev
         {
             _screenManager.LoadScreen(new Start(this), new FadeTransition(GraphicsDevice, Color.Black));
         }
-
         public void LoadLevel1()
         {
             _screenManager.LoadScreen(new Level1(this), new FadeTransition(GraphicsDevice, Color.Black));
+        }
+        public void LoadLevel2()
+        {
+            _screenManager.LoadScreen(new Level2(this), new FadeTransition(GraphicsDevice, Color.Black));
         }
     }
 }
