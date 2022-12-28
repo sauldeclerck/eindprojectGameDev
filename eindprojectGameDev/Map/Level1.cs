@@ -89,7 +89,7 @@ namespace eindprojectGameDev.Map
             { '.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.'},
         };
         private Block[,] BlockArray;
-        private Hero hero;
+        private Hero2 hero;
         List<Enemy> enemies = new List<Enemy>();
         private HealthBar healthBarHero;
         private Hearts hearts;
@@ -105,19 +105,20 @@ namespace eindprojectGameDev.Map
             {
                 GameManager.defaultBlocks.Add(item);
             }
-            hero = new Hero(Content);
+            hero = new Hero2(Content, 170,170);
             healthBarHero = new HealthBar(Game.Content.Load<Texture2D>("Red_Rectangle"));
             hearts = new Hearts(Game.Content.Load<Texture2D>("heart"));
 
             enemies.Add(new Daemon(1100, 875, Content));
             enemies.Add(new Daemon(800, 910, Content));
             enemies.Add(new porcupine(680, 975, Content));
+            enemies.ForEach(item => GameManager.enemies.Add(item));
         }
 
         public override void Update(GameTime gameTime)
         {
-            //hero.Update(gameTime);
-            healthBarHero.Update(hero.position, hero.Health);
+            hero.Update(gameTime);
+            healthBarHero.Update(hero.Position, hero.Health);
             hearts.Update(hero);
             enemies.ForEach(enemy => enemy.Update(gameTime));
         }
@@ -135,7 +136,8 @@ namespace eindprojectGameDev.Map
                     item.Draw(Game._spriteBatch);
                 }
             }
-            //hero.Draw(Game._spriteBatch);
+            hero.Draw(Game._spriteBatch);
+            //Game._spriteBatch.Draw(Content.Load<Texture2D>("Red_Rectangle"), hero.hitbox, Color.Red);
             healthBarHero.Draw(Game._spriteBatch);
             hearts.Draw(Game._spriteBatch);
             Game._spriteBatch.End();

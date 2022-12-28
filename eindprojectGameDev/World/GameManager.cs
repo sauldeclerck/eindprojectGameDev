@@ -1,4 +1,5 @@
-﻿using eindprojectGameDev.interfaces;
+﻿using eindprojectGameDev.Characters.Enemies;
+using eindprojectGameDev.interfaces;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -13,9 +14,11 @@ namespace eindprojectGameDev.World
     {
         public static ContentManager Content;
         public static List<Block> defaultBlocks = new List<Block>();
+        public static List<Enemy> enemies = new List<Enemy>();
         public static MouseState MouseState = new MouseState();
-        public static void ResetBlocks()
+        public static void Reset()
         {
+            enemies.Clear();
             defaultBlocks.Clear();
         }
         public static void SetContent(ContentManager Content)

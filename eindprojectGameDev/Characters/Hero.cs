@@ -34,7 +34,7 @@ namespace eindprojectGameDev.Characters
         public Vector2 nextPositionH { get; set; }
         public Vector2 nextPositionV { get; set; }
         private IInputReader inputReader;
-        public Vector2 position;
+        public Vector2 position = new Vector2(170, 170);
         private int speed = 5;
         private Texture2D heroTexture;
         private int spriteWidth = 96, spriteHeight = 96;
@@ -44,7 +44,6 @@ namespace eindprojectGameDev.Characters
         private int jumpSpeed = 0;
         private int startY = 0;
         private float gravityForce = 4.5f;
-        private bool onGround = false;
         private bool canJump = false;
         Animation[] animations = new Animation[4]
         {
@@ -58,10 +57,8 @@ namespace eindprojectGameDev.Characters
         {
             this.heroTexture = content.Load<Texture2D>("GoblinHero");
             this.inputReader = new PlayerMovement();
-            position = new Vector2(170, 170);
             Health = new Health(3, 100);
             this.ResetHero();
-            currentAnimation = animations[0];
         }
 
         public void Update(GameTime gameTime)
@@ -73,6 +70,7 @@ namespace eindprojectGameDev.Characters
                 ResetHero();
             }
             var direction = inputReader.ReadMovementInput();
+            SetAnimation(direction);
 
             Position = new Vector2((int)position.X, (int)position.Y);
             nextPositionH = position;
@@ -91,15 +89,12 @@ namespace eindprojectGameDev.Characters
             if (!CheckCollision(nextHitboxV))
             {
                 position.Y = nextPositionV.Y;
-                onGround = false;
             }
             else
             {
-                onGround = true;
                 canJump = true;
             }
             CheckEnemyHit();
-            SetAnimation(direction);
             currentAnimation.Update(gameTime);
         }
 
