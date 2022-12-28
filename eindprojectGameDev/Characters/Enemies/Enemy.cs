@@ -27,6 +27,9 @@ namespace eindprojectGameDev.Characters.Enemies
         public Rectangle hitbox;
         public Rectangle nextHitboxH { get; set; }
         public Rectangle nextHitboxV { get; set; }
+        Texture2D ICharacter.Texture { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Rectangle Hitbox { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public Animation animation = new Animation();
         public Texture2D Texture;
         bool flip = false;

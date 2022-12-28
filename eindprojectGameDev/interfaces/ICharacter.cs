@@ -11,6 +11,8 @@ namespace eindprojectGameDev.interfaces
 {
     internal interface ICharacter
     {
+        public Texture2D Texture { get; set; }
+        public Rectangle Hitbox { get; set; }
         public Vector2 Position { get; set; }
         public Health Health { get; set; }
         void Update(GameTime gameTime);

@@ -25,5 +25,10 @@ namespace eindprojectGameDev.World
         {
             GameManager.Content = Content;
         }
+
+        public static void DoDamage(int amount, ICharacter character)
+        {
+            character.TakeDamage(amount);
+        }
     }
 }
