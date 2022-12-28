@@ -9,6 +9,8 @@ using MonoGame.Extended.Screens.Transitions;
 using SharpDX.Direct2D1;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
+using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Color = Microsoft.Xna.Framework.Color;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
@@ -17,8 +19,7 @@ namespace eindprojectGameDev
 {
     public class Game1 : Game
     {
-        public GameStates gameState = GameStates.menu;
-        public GameStates previousState;
+        public GameStates? previousState;
         private GraphicsDeviceManager _graphics;
         public SpriteBatch _spriteBatch;
         private readonly ScreenManager _screenManager;
@@ -55,12 +56,12 @@ namespace eindprojectGameDev
         protected override void Update(GameTime gameTime)
         {
             //LevelManager.Update(gameTime);
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
                 Exit();
             //todo => add gamestates
             if (previousState != GameState.gameState)
             {
-                switch (gameState)
+                switch (GameState.gameState)
                 {
                     case GameStates.menu:
                         LoadStart();
@@ -69,8 +70,12 @@ namespace eindprojectGameDev
                         LoadLevel1();
                         break;
                     case GameStates.level2:
+                        LoadLevel2();
                         break;
                     case GameStates.gameover:
+                        break;
+                    case GameStates.exit:
+                        Application.Exit();
                         break;
                     default:
                         break;

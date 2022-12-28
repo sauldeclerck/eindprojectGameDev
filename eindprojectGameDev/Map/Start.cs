@@ -31,9 +31,9 @@ namespace eindprojectGameDev.Map
             base.LoadContent();
             backgroundTexture = Content.Load<Texture2D>("background");
             buttonLvl1 = new Button(Level1Rectangle, "Red_Rectangle", "Level 1", Content);
-            buttonLvl1.onClick += delegate { Game.LoadLevel1(); };
+            buttonLvl1.onClick += delegate { GameState.gameState = GameStates.level1; };
             buttonLvl2 = new Button(Level2Rectangle, "Red_Rectangle", "Level 2", Content);
-            buttonLvl2.onClick += delegate { Game.LoadLevel2(); };
+            buttonLvl2.onClick += delegate { GameState.gameState = GameStates.level2; };
             buttonExit = new Button(ExitRectangle, "Red_Rectangle", "Exit", Content);
             buttonExit.onClick += delegate { Application.Exit(); };
         }
