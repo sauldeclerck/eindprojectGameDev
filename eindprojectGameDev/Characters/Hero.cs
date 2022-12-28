@@ -25,26 +25,21 @@ namespace eindprojectGameDev.Characters
     {
         #region initialize
         public enum HeroStates { walkingRight, walkingLeft, idle, attackingRight, attackingLeft, dead }
-        public Health Health { get => health; set => this.health = value; }
+        private HealthBar healthBar;
+        private Hearts Hearts;
+        private HeroStates State = HeroStates.idle;
+        private PlayerMovement PlayerMovement;
+        public int spriteWidth = 0;
+        private int speed = 5;
         public Vector2 Position { get; set; }
-        private Health health;
+        public Vector2 nextPositionH { get; set; }
+        public Vector2 nextPositionV { get; set; }
+        private Vector2 vector = new Vector2(1, 0);
+        public Health Health { get; set; }
         public Rectangle hitbox;
         public Rectangle nextHitboxH { get; set; }
         public Rectangle nextHitboxV { get; set; }
-        public Vector2 nextPositionH { get; set; }
-        public Vector2 nextPositionV { get; set; }
-        private IInputReader inputReader;
-        public Vector2 position = new Vector2(170, 170);
-        private int speed = 5;
-        private Texture2D heroTexture;
-        private int spriteWidth = 96, spriteHeight = 96;
-        public HeroStates State = HeroStates.idle;
-        private Animation currentAnimation;
-        private bool IsJumping = false;
-        private int jumpSpeed = 0;
-        private int startY = 0;
-        private float gravityForce = 4.5f;
-        private bool canJump = false;
+        public Animation currentAnimation = new Animation();
         Animation[] animations = new Animation[4]
         {
             new Animation(), //Idle (0)
@@ -52,77 +47,77 @@ namespace eindprojectGameDev.Characters
             new Animation(), //Fight (2)
             new Animation() //Die (3)
         };
+        public Texture2D Texture;
+        private bool canJump;
+        private bool IsJumping;
+        private float gravityForce = 2f;
+        private float jumpSpeed = 5;
+        private float startY = 5;
+        SpriteEffects flip = SpriteEffects.None;
         #endregion
-        public Hero(ContentManager content)
+
+        public Hero(ContentManager content, int positionX, int positionY)
         {
-            this.heroTexture = content.Load<Texture2D>("GoblinHero");
-            this.inputReader = new PlayerMovement();
+            PlayerMovement = new PlayerMovement();
+            Position = new Vector2(positionX, positionY);
+            nextPositionH = new Vector2(positionX, positionY);
+            nextPositionV = new Vector2(positionX, positionY);
+            Texture = content.Load<Texture2D>("Cacodaemon Sprite Sheet");
+            healthBar = new HealthBar(content.Load<Texture2D>("Red_rectangle"));
+            Hearts = new Hearts(content.Load<Texture2D>("heart"));
+            spriteWidth = 160 / 3;
+            //animation.GetFramesFromTextureProperties(2 * 160, 0 * 96, 2, 96);
             Health = new Health(3, 100);
-            this.ResetHero();
+            Texture = content.Load<Texture2D>("GoblinHero");
+            animations[0].GetFramesFromTextureProperties(2 * 160, 0 * 96, 2, 96);
         }
-
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
-            if (this.health.health < 0)
-            {
-                this.health.lives -= 1;
-                this.health.health = this.health.maxHealth;
-                ResetHero();
-            }
-            var direction = inputReader.ReadMovementInput();
+            Hearts.Update(this);
+            var direction = PlayerMovement.ReadMovementInput();
             SetAnimation(direction);
-
-            Position = new Vector2((int)position.X, (int)position.Y);
-            nextPositionH = position;
-            nextPositionV = position;
-            hitbox = new Rectangle((int)position.X + 50, (int)position.Y + 50, spriteWidth - 50, spriteHeight - 50);
+            currentAnimation.Update(gameTime);
+            flip = direction.X >= 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            hitbox = new Rectangle((int)nextPositionH.X + 50, (int)nextPositionV.Y + 42, spriteWidth, spriteWidth);
+            startY = Position.Y;
+            nextPositionH = Position;
+            nextPositionV = Position;
+            nextPositionH += direction * speed;
             nextPositionV = Gravity(nextPositionV);
-            direction *= speed;
-            nextPositionH += direction;
-            startY = (int)nextPositionV.Y;
             Jump();
-            nextHitboxH = new Rectangle((int)nextPositionH.X + 50, (int)nextPositionH.Y + 50, spriteWidth - 50, spriteHeight - 50);
-            nextHitboxV = new Rectangle((int)nextPositionV.X + 50, (int)nextPositionV.Y + 50, spriteWidth - 50, spriteHeight - 50);
-
-            if (!CheckCollision(nextHitboxH)) position.X = nextPositionH.X;
-
-            if (!CheckCollision(nextHitboxV))
-            {
-                position.Y = nextPositionV.Y;
-            }
-            else
-            {
-                canJump = true;
-            }
+            nextHitboxH = new Rectangle((int)nextPositionH.X + 50, (int)nextPositionH.Y + 42, spriteWidth, spriteWidth);
+            nextHitboxV = new Rectangle((int)nextPositionV.X + 50, (int)nextPositionV.Y + 42, spriteWidth, spriteWidth);
+            if (!CheckCollision(nextHitboxH)) Position = new Vector2(nextPositionH.X, Position.Y);
+            if (!CheckCollision(nextHitboxV)) Position = new Vector2(Position.X, nextPositionV.Y);
+            else canJump = true;
+            healthBar.Update(Position, Health);
             CheckEnemyHit();
             currentAnimation.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch _spriteBatch)
+        public virtual void Draw(SpriteBatch _spriteBatch)
         {
-            //draw hero
-            switch (State)
+            healthBar.Draw(_spriteBatch);
+            Hearts.Draw(_spriteBatch);
+            if (currentAnimation.CurrentFrame != null)
             {
-                case HeroStates.walkingRight:
-                    _spriteBatch.Draw(heroTexture, position, animations[1].CurrentFrame.SourceRectangle, Color.White);
-                    break;
-                case HeroStates.walkingLeft:
-                    _spriteBatch.Draw(heroTexture, position, animations[1].CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), 1f, SpriteEffects.FlipHorizontally, 1);
-                    break;
-                case HeroStates.idle:
-                    _spriteBatch.Draw(heroTexture, position, animations[0].CurrentFrame.SourceRectangle, Color.White);
-                    break;
-                case HeroStates.attackingRight:
-                    _spriteBatch.Draw(heroTexture, position, animations[2].CurrentFrame.SourceRectangle, Color.White);
-                    break;
-                case HeroStates.attackingLeft:
-                    _spriteBatch.Draw(heroTexture, position, animations[2].CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), 1f, SpriteEffects.FlipHorizontally, 1);
-                    break;
-                case HeroStates.dead:
-                    _spriteBatch.Draw(heroTexture, position, animations[3].CurrentFrame.SourceRectangle, Color.White);
-                    break;
-                default:
-                    break;
+                _spriteBatch.Draw(Texture, Position, currentAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, flip, 0);
+            }
+        }
+
+        public void TakeDamage(int amount)
+        {
+            if (this.Health.health - amount <= 0)
+            {
+                this.Health.lives--;
+                if (this.Health.lives > 0)
+                {
+                    this.Health.health = this.Health.maxHealth;
+                }
+            }
+            else
+            {
+                this.Health.health -= amount;
             }
         }
 
@@ -144,7 +139,7 @@ namespace eindprojectGameDev.Characters
         }
         public void CheckEnemyHit()
         {
-            foreach (var item in LevelManager.enemies)
+            foreach (var item in GameManager.enemies)
             {
                 if (hitbox.Intersects(item.hitbox))
                 {
@@ -153,14 +148,13 @@ namespace eindprojectGameDev.Characters
                 }
             }
         }
-        public void ResetHero()
+
+        private Vector2 Gravity(Vector2 Position)
         {
-            this.position = new Vector2(170, 170);
+            Position.Y += gravityForce;
+            return Position;
         }
-        public void TakeDamage(int amount)
-        {
-            this.health.health -= amount;
-        }
+
         private void Jump()
         {
             // credits => https://flatformer.blogspot.com/
@@ -180,21 +174,15 @@ namespace eindprojectGameDev.Characters
                     IsJumping = false;
                 }
             }
-
             else
             {
-                if (inputReader.ReadIsJumping())
+                if (PlayerMovement.ReadIsJumping())
                 {
                     IsJumping = true;
                     canJump = false;
                     jumpSpeed = -14;//Give it upward thrust
                 }
             }
-        }
-        private Vector2 Gravity(Vector2 Position)
-        {
-            Position.Y += gravityForce;
-            return Position;
         }
         private void SetAnimation(Vector2 direction)
         {
@@ -216,13 +204,13 @@ namespace eindprojectGameDev.Characters
                 currentAnimation = animations[0];
                 animations[0].GetFramesFromTextureProperties(2 * 160, 0 * 96, 2, 96);
             }
-            if (inputReader.ReadIsFighting() && direction.X >= 0)
+            if (PlayerMovement.ReadIsFighting() && direction.X >= 0)
             {
                 State = HeroStates.attackingRight;
                 currentAnimation = animations[2];
                 animations[2].GetFramesFromTextureProperties(7 * 160, 2 * 96, 7, 96);
             }
-            if (inputReader.ReadIsFighting() && direction.X < 0)
+            if (PlayerMovement.ReadIsFighting() && direction.X < 0)
             {
                 State = HeroStates.attackingLeft;
                 currentAnimation = animations[2];

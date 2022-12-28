@@ -89,10 +89,8 @@ namespace eindprojectGameDev.Map
             { '.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.'},
         };
         private Block[,] BlockArray;
-        private Hero2 hero;
+        private Hero hero;
         List<Enemy> enemies = new List<Enemy>();
-        private HealthBar healthBarHero;
-        private Hearts hearts;
         public Level1(Game1 game) : base(game) { }
 
         public override void LoadContent()
@@ -105,9 +103,7 @@ namespace eindprojectGameDev.Map
             {
                 GameManager.defaultBlocks.Add(item);
             }
-            hero = new Hero2(Content, 170,170);
-            healthBarHero = new HealthBar(Game.Content.Load<Texture2D>("Red_Rectangle"));
-            hearts = new Hearts(Game.Content.Load<Texture2D>("heart"));
+            hero = new Hero(Content, 170,170);
 
             enemies.Add(new Daemon(1100, 875, Content));
             enemies.Add(new Daemon(800, 910, Content));
@@ -118,8 +114,6 @@ namespace eindprojectGameDev.Map
         public override void Update(GameTime gameTime)
         {
             hero.Update(gameTime);
-            healthBarHero.Update(hero.Position, hero.Health);
-            hearts.Update(hero);
             enemies.ForEach(enemy => enemy.Update(gameTime));
         }
 
@@ -138,8 +132,6 @@ namespace eindprojectGameDev.Map
             }
             hero.Draw(Game._spriteBatch);
             //Game._spriteBatch.Draw(Content.Load<Texture2D>("Red_Rectangle"), hero.hitbox, Color.Red);
-            healthBarHero.Draw(Game._spriteBatch);
-            hearts.Draw(Game._spriteBatch);
             Game._spriteBatch.End();
         }
     }

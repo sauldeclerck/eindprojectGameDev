@@ -91,8 +91,6 @@ namespace eindprojectGameDev.Map
         private Block[,] BlockArray;
         private Hero hero;
         List<Enemy> enemies = new List<Enemy>();
-        private HealthBar healthBarHero;
-        private Hearts hearts;
         public Level2(Game1 game) : base(game) { }
 
         public override void LoadContent()
@@ -105,9 +103,7 @@ namespace eindprojectGameDev.Map
             {
                 GameManager.defaultBlocks.Add(item);
             }
-            hero = new Hero(Content);
-            healthBarHero = new HealthBar(Game.Content.Load<Texture2D>("Red_Rectangle"));
-            hearts = new Hearts(Game.Content.Load<Texture2D>("heart"));
+            hero = new Hero(Content, 170, 170);
 
             enemies.Add(new Daemon(1100, 875, Content));
             enemies.Add(new Daemon(800, 910, Content));
@@ -116,9 +112,7 @@ namespace eindprojectGameDev.Map
 
         public override void Update(GameTime gameTime)
         {
-            //hero.Update(gameTime);
-            healthBarHero.Update(hero.position, hero.Health);
-            hearts.Update(hero);
+            hero.Update(gameTime);
             enemies.ForEach(enemy => enemy.Update(gameTime));
         }
 
@@ -130,14 +124,9 @@ namespace eindprojectGameDev.Map
             enemies.ForEach(enemy => enemy.Draw(Game._spriteBatch));
             foreach (var item in BlockArray)
             {
-                if (item != null)
-                {
-                    item.Draw(Game._spriteBatch);
-                }
+                if (item != null) item.Draw(Game._spriteBatch);
             }
-            //hero.Draw(Game._spriteBatch);
-            healthBarHero.Draw(Game._spriteBatch);
-            hearts.Draw(Game._spriteBatch);
+            hero.Draw(Game._spriteBatch);
             Game._spriteBatch.End();
         }
     }
