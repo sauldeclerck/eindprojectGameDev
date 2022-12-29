@@ -30,13 +30,21 @@ namespace eindprojectGameDev.Characters.Enemies
             {
                 case EnemyTypes.EnemyType.Porcupine:
                     spriteWidth = 160 / 5;
+                    HeightMultiplier = 1f;
                     Texture = content.Load<Texture2D>("Porcupine");
                     CurrentAnimation.GetFramesFromTextureProperties(base.Texture.Width / 5 * 5, 0, 5, spriteWidth);
                     break;
                 case EnemyTypes.EnemyType.Daemon:
                     spriteWidth = 512 / 8;
+                    HeightMultiplier = 1f;
                     Texture = content.Load<Texture2D>("Cacodaemon Sprite Sheet");
                     CurrentAnimation.GetFramesFromTextureProperties(base.Texture.Width / 8 * 6, 0, 6, 256 / 4);
+                    break;
+                case EnemyTypes.EnemyType.kobold:
+                    spriteWidth = 256 / 4;
+                    Texture = content.Load<Texture2D>("kobold");
+                    HeightMultiplier = 2f;
+                    CurrentAnimation.GetFramesFromTextureProperties(base.Texture.Width / 8 * 4, 0, 4, 256 / 8);
                     break;
                 default:
                     break;

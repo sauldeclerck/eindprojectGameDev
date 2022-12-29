@@ -7,6 +7,7 @@ namespace eindprojectGameDev.Characters
 {
     public abstract class Character : Entity
     {
+        public float HeightMultiplier { get; set; }
         public Vector2 StartPosition { get; set; }
         public Animation[] Animations { get; set; }
         public Animation CurrentAnimation { get; set; }
@@ -62,7 +63,7 @@ namespace eindprojectGameDev.Characters
 
         public void DrawAnimation(SpriteBatch _spriteBatch)
         {
-            _spriteBatch.Draw(Texture, Position, CurrentAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, Flip, 0);
+            _spriteBatch.Draw(Texture, Position, CurrentAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), HeightMultiplier, Flip, 0);
         }
 
         public void ResetPosition()

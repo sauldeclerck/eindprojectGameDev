@@ -7,7 +7,7 @@ namespace eindprojectGameDev.Animations
     {
         public AnimationFrame CurrentFrame { get; set; }
         public List<AnimationFrame> frames;
-        private int counter;
+        public int counter;
         private double secondCounter = 0;
 
         public Animation()

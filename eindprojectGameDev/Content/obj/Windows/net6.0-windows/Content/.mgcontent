@@ -9,10 +9,12 @@
     <File>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/GameFont.spritefont</File>
     <File>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/GoblinHero.png</File>
     <File>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/heart.png</File>
+    <File>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/kobold.png</File>
     <File>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/Porcupine.png</File>
     <File>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/tileset.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

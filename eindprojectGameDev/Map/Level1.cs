@@ -103,7 +103,7 @@ namespace eindprojectGameDev.Map
             Hero = new Hero(Content, 170, 800);
             GameManager.enemies.Clear();
             Enemies.Add(new Enemy(1100, 875, Content, EnemyTypes.EnemyType.Daemon));
-            Enemies.Add(new Enemy(800, 910, Content, EnemyTypes.EnemyType.Daemon));
+            Enemies.Add(new Enemy(800, 910, Content, EnemyTypes.EnemyType.kobold));
             Enemies.Add(new Enemy(680, 975, Content, EnemyTypes.EnemyType.Porcupine));
             Enemies.ForEach(item => GameManager.enemies.Add(item));
         }
@@ -123,7 +123,6 @@ namespace eindprojectGameDev.Map
             Game._spriteBatch.Begin();
             Game._spriteBatch.Draw(BackgroundTexture, backGroundRectangle, Color.Purple);
             Enemies.ForEach(enemy => enemy.Draw(Game._spriteBatch));
-
             foreach (var item in BlockArray)
             {
                 if (item != null) item.Draw(Game._spriteBatch);

@@ -45,3 +45,4 @@ C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin
 C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\Content\GameFont.xnb
 C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\MonoGame.Extended.dll
 C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
+C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\Content\kobold.xnb

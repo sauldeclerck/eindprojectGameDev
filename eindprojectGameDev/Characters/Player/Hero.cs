@@ -13,6 +13,7 @@ namespace eindprojectGameDev.Characters.Player
         #region initialize
         public Animation currentAnimation = new Animation();
         public HealthBar HealthBar { get; set; }
+        public Rectangle hitRectangle { get; set; }
         public int speed = 5;
         public int spriteWidth { get; set; }
         public float gravityForce = 2f;
@@ -56,13 +57,26 @@ namespace eindprojectGameDev.Characters.Player
             if (!CheckCollision(nextHitboxH)) { SetPosition(new Vector2(nextPositionH.X, Position.Y)); }
             if (!CheckCollision(nextHitboxV)) { SetPosition(new Vector2(Position.X, nextPositionV.Y)); }
             else canJump = true;
+            if (PlayerMovement.ReadIsFighting() && direction.X >= 0)
+            {
+                hitRectangle = new Rectangle((int)(Position.X + spriteWidth * 2), (int)Position.Y + 20, 54, 80);
+            }
+            else if (PlayerMovement.ReadIsFighting() && direction.X < 0)
+            {
+                hitRectangle = new Rectangle((int)(Position.X), (int)Position.Y + 20, 54, 80);
+            }
+            else
+            {
+                hitRectangle = new Rectangle(0, 0, 0, 0);
+            }
             SetAnimation(direction);
             currentAnimation.Update(gameTime);
             Hearts.Update(this);
             Hitbox = new Rectangle((int)nextPositionH.X + 50, (int)nextPositionV.Y + 42, spriteWidth, spriteWidth);
             currentAnimation.Update(gameTime);
-            CheckEnemyHit();
-            
+            CheckEnemyHit(Hitbox, true);
+            CheckEnemyHit(hitRectangle, false);
+
         }
 
         public void Draw(SpriteBatch _spriteBatch)
@@ -75,16 +89,19 @@ namespace eindprojectGameDev.Characters.Player
             }
         }
 
-        public void CheckEnemyHit()
+        public void CheckEnemyHit(Rectangle hitbox, bool selfDamage)
         {
             foreach (var item in GameManager.enemies)
             {
                 if (item.isActive)
                 {
-                    if (Hitbox.Intersects(item.Hitbox))
+                    if (hitbox.Intersects(item.Hitbox))
                     {
                         GameManager.DoDamage(50, item);
-                        TakeDamage(50);
+                        if (selfDamage)
+                        {
+                            TakeDamage(50);
+                        }
                     }
                 }
             }
