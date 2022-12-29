@@ -17,11 +17,11 @@ namespace eindprojectGameDev.Characters.Enemies
     public class porcupine : Enemy, ICharacter
     {
         public int spriteWidth = 0;
-        public enum EnemyType { daemon };
-        
         private Vector2 movement = new Vector2(1, 0);
+
         public porcupine(int positionX, int positionY, ContentManager content)
         {
+            EnemyType = EnemyTypes.EnemyType.Daemon;
             isActive = true;
             vector = new Vector2(1, 0);
             Position = new Vector2(positionX, positionY);
@@ -32,7 +32,6 @@ namespace eindprojectGameDev.Characters.Enemies
             CurrentAnimation = new Animation();
             CurrentAnimation.GetFramesFromTextureProperties(base.Texture.Width / 5 * 5, 0, 5, spriteWidth);
             Health = new Health(1, 20);
-            //Type = EnemyType.daemon;
         }
         public void Update(GameTime gameTime)
         {

@@ -17,10 +17,10 @@ namespace eindprojectGameDev.Characters.Enemies
     public class Daemon : Enemy, ICharacter
     {
         public int spriteWidth = 0;
-        public enum EnemyType { daemon };
         private Vector2 movement = new Vector2(1, 0);
         public Daemon(int positionX, int positionY, ContentManager content)
         {
+            EnemyType = EnemyTypes.EnemyType.Daemon;
             isActive = true;
             vector = new Vector2(1, 0);
             Position = new Vector2(positionX, positionY);
@@ -31,7 +31,6 @@ namespace eindprojectGameDev.Characters.Enemies
             CurrentAnimation = new Animation();
             CurrentAnimation.GetFramesFromTextureProperties(base.Texture.Width/8*6, 0, 6, 256/4);
             Health = new Health(1, 50);
-            //Type = EnemyType.daemon;
         }
         public void Update(GameTime gameTime)
         {

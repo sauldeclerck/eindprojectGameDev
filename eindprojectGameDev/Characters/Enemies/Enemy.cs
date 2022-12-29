@@ -17,7 +17,7 @@ namespace eindprojectGameDev.Characters.Enemies
     {
         public bool isActive { get; set; }
         public Vector2 vector { get; set; }
-        
+        public EnemyTypes.EnemyType EnemyType { get; set; }
 
     }
 }
