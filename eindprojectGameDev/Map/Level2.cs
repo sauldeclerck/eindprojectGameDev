@@ -6,9 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using eindprojectGameDev.Characters;
 using eindprojectGameDev.Characters.Enemies;
 using eindprojectGameDev.World;
+using eindprojectGameDev.Characters.Player;
+using eindprojectGameDev.interfaces;
 
 namespace eindprojectGameDev.Map
 {
@@ -90,7 +91,7 @@ namespace eindprojectGameDev.Map
         };
         private Block[,] BlockArray;
         private Hero hero;
-        List<Enemy> enemies = new List<Enemy>();
+        List<ICharacter> enemies = new List<ICharacter>();
         public Level2(Game1 game) : base(game) { }
 
         public override void LoadContent()

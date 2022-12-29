@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eindprojectGameDev.interfaces
 {
-    internal interface IGameObject
+    public interface IGameObject
     {
         public Rectangle BoundingBox { get; set; }
         void Update(GameTime gameTime);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace eindprojectGameDev.interfaces
 {
-    internal class IMenu
+    public class IMenu
     {
     }
 }

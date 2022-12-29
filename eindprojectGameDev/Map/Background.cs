@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace eindprojectGameDev.Map
 {
-    internal static class Background
+    public static class Background
     {
         private static Texture2D backgroundTexture;
     

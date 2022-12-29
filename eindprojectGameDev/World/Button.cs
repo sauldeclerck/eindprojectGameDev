@@ -13,7 +13,7 @@ using System.Xml.Linq;
 
 namespace eindprojectGameDev.World
 {
-    internal class Button
+    public class Button
     {
         private SpriteFont SpriteFont;
         private readonly Texture2D texture;

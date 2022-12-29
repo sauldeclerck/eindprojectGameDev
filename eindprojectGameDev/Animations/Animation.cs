@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eindprojectGameDev.Characters.Animations
+namespace eindprojectGameDev.Animations
 {
-    internal class Animation
+    public class Animation
     {
         public AnimationFrame CurrentFrame { get; set; }
         public List<AnimationFrame> frames;

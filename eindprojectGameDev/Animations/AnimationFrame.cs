@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eindprojectGameDev.Characters.Animations
+namespace eindprojectGameDev.Animations
 {
-    internal class AnimationFrame
+    public class AnimationFrame
     {
         public Rectangle SourceRectangle { get; set; }
 

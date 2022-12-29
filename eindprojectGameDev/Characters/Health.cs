@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace eindprojectGameDev.Characters
 {
-    internal class Health
+    public class Health
     {
         public int lives, health, maxHealth;
         public Health(int lives, int health)

@@ -12,18 +12,8 @@ using System.Threading.Tasks;
 
 namespace eindprojectGameDev.Map
 {
-    internal class BlockFactory
+    public class BlockFactory
     {
-        //public static Block CreateBlock(
-        //string type, int x, int y, GraphicsDevice graphics)
-        //{
-        //    Block newBlock = null;
-        //    if (type == "NORMAL")
-        //    {
-        //        newBlock = new Block(x, y, graphics);
-        //    }
-        //    return newBlock;
-        //}
         enum blockOrder { first, middle, last };
         public static Block[,] CreateBlocks(char[,] blockArray, Texture2D texture, ContentManager content)
         {

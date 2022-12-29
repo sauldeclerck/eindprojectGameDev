@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eindprojectGameDev.interfaces
 {
-    internal interface ICharacter
+    public interface ICharacter
     {
         public Texture2D Texture { get; set; }
         public Rectangle Hitbox { get; set; }

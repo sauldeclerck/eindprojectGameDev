@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eindprojectGameDev.Characters
 {
-    internal class HealthBar
+    public class HealthBar
     {
         private Texture2D healthTexture;
         private Rectangle healthBarRectangle;

@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace eindprojectGameDev.World
 {
-    internal static class GameManager
+    public static class GameManager
     {
         public static ContentManager Content;
         public static List<Block> defaultBlocks = new List<Block>();
-        public static List<Enemy> enemies = new List<Enemy>();
+        public static List<ICharacter> enemies = new List<ICharacter>();
         public static MouseState MouseState = new MouseState();
         public static void Reset()
         {

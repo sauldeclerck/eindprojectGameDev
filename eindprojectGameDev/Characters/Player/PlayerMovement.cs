@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static eindprojectGameDev.Characters.Hero;
+using static eindprojectGameDev.Characters.Player.Hero;
 
-namespace eindprojectGameDev.Characters
+namespace eindprojectGameDev.Characters.Player
 {
-    internal class PlayerMovement : IInputReader
+    public class PlayerMovement : IInputReader
     {
         public Vector2 ReadMovementInput()
         {
@@ -21,7 +21,8 @@ namespace eindprojectGameDev.Characters
             //if (state.IsKeyDown(Keys.Down)) direction.Y += 1;
             return direction;
         }
-        public bool ReadIsFighting(){
+        public bool ReadIsFighting()
+        {
             return Keyboard.GetState().IsKeyDown(Keys.Space);
         }
         public bool ReadIsJumping()

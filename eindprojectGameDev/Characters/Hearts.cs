@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eindprojectGameDev.Characters
 {
-    internal class Hearts
+    public class Hearts
     {
         private List<Rectangle> hearts = new List<Rectangle>();
         private Texture2D heartTexture;

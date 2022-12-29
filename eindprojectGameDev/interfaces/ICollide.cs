@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eindprojectGameDev.interfaces
 {
-    internal interface ICollidable
+    public interface ICollidable
     {
         bool CheckCollision(Rectangle rec);
         void Draw(SpriteBatch spriteBatch);

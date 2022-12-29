@@ -6,9 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using eindprojectGameDev.Characters;
 using eindprojectGameDev.Characters.Enemies;
 using eindprojectGameDev.World;
+using eindprojectGameDev.Characters.Player;
+using eindprojectGameDev.interfaces;
 
 namespace eindprojectGameDev.Map
 {
@@ -90,7 +91,7 @@ namespace eindprojectGameDev.Map
         };
         private Block[,] BlockArray;
         private Hero hero;
-        List<Enemy> enemies = new List<Enemy>();
+        List<ICharacter> enemies = new List<ICharacter>();
         public Level1(Game1 game) : base(game) { }
 
         public override void LoadContent()
@@ -123,6 +124,7 @@ namespace eindprojectGameDev.Map
             Game._spriteBatch.Begin();
             Game._spriteBatch.Draw(backgroundTexture, backGroundRectangle, Color.Purple);
             enemies.ForEach(enemy => enemy.Draw(Game._spriteBatch));
+            
             foreach (var item in BlockArray)
             {
                 if (item != null)
@@ -131,7 +133,6 @@ namespace eindprojectGameDev.Map
                 }
             }
             hero.Draw(Game._spriteBatch);
-            //Game._spriteBatch.Draw(Content.Load<Texture2D>("Red_Rectangle"), hero.hitbox, Color.Red);
             Game._spriteBatch.End();
         }
     }

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-class Block : IGameObject
+public class Block : IGameObject
 {
     public Rectangle BoundingBox { get; set; }
     public bool Passable { get; set; }

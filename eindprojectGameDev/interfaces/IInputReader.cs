@@ -2,7 +2,7 @@
 
 namespace eindprojectGameDev.interfaces
 {
-    internal interface IInputReader
+    public interface IInputReader
     {
         Vector2 ReadMovementInput();
         bool ReadIsFighting();
