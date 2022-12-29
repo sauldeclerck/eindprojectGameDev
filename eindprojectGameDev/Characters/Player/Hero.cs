@@ -144,10 +144,6 @@ namespace eindprojectGameDev.Characters.Player
             if (PlayerMovement.ReadIsFighting())
             {
                 currentAnimation = Animations[2];
-                if (currentAnimation.counter == currentAnimation.frames.Count)
-                {
-                    currentAnimation.counter = 0;
-                }
                 Animations[2].GetFramesFromTextureProperties(7 * 160, 2 * 96, 7, 96);
             }
         }
