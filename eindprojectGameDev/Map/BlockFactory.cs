@@ -1,14 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct2D1;
-using SharpDX.Direct3D9;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eindprojectGameDev.Map
 {
@@ -19,7 +10,7 @@ namespace eindprojectGameDev.Map
         {
             char previousChar = '#', currentChar = '#', nextChar = '#', upperChar = '#', underChar = '#';
             Block[,] Tileset = new Block[blockArray.GetLength(0), blockArray.GetLength(1)];
-            
+
             for (int k = 0; k < blockArray.GetLength(0); k++)
                 for (int l = 0; l < blockArray.GetLength(1); l++)
                 {
@@ -32,33 +23,33 @@ namespace eindprojectGameDev.Map
                     if (k == 0)
                     {
                         previousChar = '#';
-                        nextChar = blockArray[k+1,l];
+                        nextChar = blockArray[k + 1, l];
                     }
-                    else if (k == blockArray.GetLength(0)-1)
+                    else if (k == blockArray.GetLength(0) - 1)
                     {
-                        previousChar = blockArray[k-1,l];
+                        previousChar = blockArray[k - 1, l];
                         nextChar = '#';
                     }
                     else
                     {
-                        previousChar = blockArray[k-1,l];
-                        nextChar = blockArray[k+1,l];
+                        previousChar = blockArray[k - 1, l];
+                        nextChar = blockArray[k + 1, l];
                     }
 
                     if (l == 0)
                     {
                         upperChar = '#';
-                        underChar = blockArray[k, l+1];
+                        underChar = blockArray[k, l + 1];
                     }
-                    else if (l == blockArray.GetLength(1)-1)
+                    else if (l == blockArray.GetLength(1) - 1)
                     {
                         underChar = '#';
                         upperChar = blockArray[k, l - 1];
                     }
                     else
                     {
-                        underChar = blockArray[k,l+1];
-                        upperChar = blockArray[k,l-1];
+                        underChar = blockArray[k, l + 1];
+                        upperChar = blockArray[k, l - 1];
                     }
                     currentChar = blockArray[k, l];
                     switch (currentChar)

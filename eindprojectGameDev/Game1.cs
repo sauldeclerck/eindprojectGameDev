@@ -1,18 +1,13 @@
-﻿using eindprojectGameDev.Characters;
-using eindprojectGameDev.Map;
+﻿using eindprojectGameDev.Map;
 using eindprojectGameDev.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
-using SharpDX.Direct2D1;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Color = Microsoft.Xna.Framework.Color;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
 namespace eindprojectGameDev
@@ -36,12 +31,12 @@ namespace eindprojectGameDev
         {
             // TODO: Add your initialization logic here
             base.Initialize();
-            
+
             _graphics.IsFullScreen = true;
             _graphics.PreferredBackBufferHeight = GlobalSettings.Height;
             _graphics.PreferredBackBufferWidth = GlobalSettings.Width;
             _graphics.ApplyChanges();
-            
+
             LoadStart();
             //GameManager.SetContent(Content);
             //LevelManager.Initialize();

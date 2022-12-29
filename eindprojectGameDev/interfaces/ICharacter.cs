@@ -1,11 +1,6 @@
 ﻿using eindprojectGameDev.Characters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eindprojectGameDev.interfaces
 {
@@ -15,8 +10,8 @@ namespace eindprojectGameDev.interfaces
         public Rectangle Hitbox { get; set; }
         public Vector2 Position { get; set; }
         public Health Health { get; set; }
-        void Update(GameTime gameTime);
-        void Draw(SpriteBatch spriteBatch);
-        void TakeDamage(int amount);
+        public void Update(GameTime gameTime);
+        public void Draw(SpriteBatch spriteBatch);
+        public void TakeDamage(int amount);
     }
 }

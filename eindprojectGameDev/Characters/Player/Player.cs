@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace eindprojectGameDev.Characters.Player
+﻿namespace eindprojectGameDev.Characters.Player
 {
     public abstract class Player : Character
     {

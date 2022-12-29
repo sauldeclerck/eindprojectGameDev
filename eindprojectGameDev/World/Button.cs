@@ -1,15 +1,8 @@
-﻿using eindprojectGameDev.interfaces;
-using eindprojectGameDev.Map;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace eindprojectGameDev.World
 {
@@ -37,8 +30,9 @@ namespace eindprojectGameDev.World
         public void Draw(SpriteBatch _spriteBatch)
         {
             color = Color.White;
-            if (isHovering) {
-                color = Color.Purple; 
+            if (isHovering)
+            {
+                color = Color.Purple;
             }
             textPosition = new Vector2(Rectangle.X + Rectangle.Width / 4, Rectangle.Y + Rectangle.Height / 3);
             _spriteBatch.Draw(texture, Rectangle, color);
@@ -49,7 +43,7 @@ namespace eindprojectGameDev.World
         {
             previousMouse = MouseState;
             MouseState = Mouse.GetState();
-            mouseRect  = new Rectangle(MouseState.X, MouseState.Y, 1, 1);
+            mouseRect = new Rectangle(MouseState.X, MouseState.Y, 1, 1);
             isHovering = false;
             if (mouseRect.Intersects(Rectangle))
             {

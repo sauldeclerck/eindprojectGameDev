@@ -1,11 +1,7 @@
-﻿using eindprojectGameDev.Characters;
-using eindprojectGameDev.interfaces;
-using eindprojectGameDev.World;
+﻿using eindprojectGameDev.interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System.Diagnostics;
-using System.Windows.Forms;
 
 public class Block : IGameObject
 {
@@ -17,7 +13,7 @@ public class Block : IGameObject
     public Block(int x, int y, int PositionX, int PositionY, ContentManager content)
     {
         this.position = new Vector2(PositionX, PositionY);
-        BoundingBox = new Rectangle(x*16, y*16, 16,16);
+        BoundingBox = new Rectangle(x * 16, y * 16, 16, 16);
         Hitbox = new Rectangle(PositionX, PositionY, 16, 16);
         Passable = false;
         Texture = content.Load<Texture2D>("tileset");

@@ -1,24 +1,24 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using MonoGame.Extended.Screens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using eindprojectGameDev.Characters.Enemies;
-using eindprojectGameDev.World;
+﻿using eindprojectGameDev.Characters.Enemies;
 using eindprojectGameDev.Characters.Player;
-using eindprojectGameDev.interfaces;
+using eindprojectGameDev.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Screens;
+using System.Collections.Generic;
 
 namespace eindprojectGameDev.Map
 {
-    public class Level2 : GameScreen
+    public class Level2 : GameScreen, ILevel
     {
         private Texture2D backgroundTexture;
         private Texture2D tileSetTexture;
         private Rectangle backGroundRectangle = new Rectangle(0, 0, GlobalSettings.Width, GlobalSettings.Height);
         private new Game1 Game => (Game1)base.Game;
+
+        public List<NPC> Enemies { get; set; }
+        public Hero Hero { get; set; }
+        public Block[,] BlockArray { get; set; }
+
         char[,] charArray = new char[67, 120]
         {
             { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
@@ -89,14 +89,12 @@ namespace eindprojectGameDev.Map
             { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
             { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#','#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
         };
-        private Block[,] BlockArray;
-        private Hero hero;
-        List<ICharacter> enemies = new List<ICharacter>();
         public Level2(Game1 game) : base(game) { }
 
         public override void LoadContent()
         {
             base.LoadContent();
+            Enemies = new List<NPC>();
             backgroundTexture = Content.Load<Texture2D>("background");
             tileSetTexture = Content.Load<Texture2D>("tileset");
             BlockArray = BlockFactory.CreateBlocks(charArray, tileSetTexture, Game.Content);
@@ -104,17 +102,17 @@ namespace eindprojectGameDev.Map
             {
                 GameManager.defaultBlocks.Add(item);
             }
-            hero = new Hero(Content, 170, 170);
+            Hero = new Hero(Content, 170, 170);
 
-            enemies.Add(new Daemon(1100, 875, Content));
-            enemies.Add(new Daemon(800, 910, Content));
-            enemies.Add(new porcupine(680, 975, Content));
+            Enemies.Add(new Daemon(1100, 875, Content));
+            Enemies.Add(new Daemon(800, 910, Content));
+            Enemies.Add(new porcupine(680, 975, Content));
         }
 
         public override void Update(GameTime gameTime)
         {
-            hero.Update(gameTime);
-            enemies.ForEach(enemy => enemy.Update(gameTime));
+            Hero.Update(gameTime);
+            Enemies.ForEach(enemy => enemy.Update(gameTime));
         }
 
         public override void Draw(GameTime gameTime)
@@ -122,12 +120,12 @@ namespace eindprojectGameDev.Map
             Game.GraphicsDevice.Clear(new Color(16, 139, 204));
             Game._spriteBatch.Begin();
             Game._spriteBatch.Draw(backgroundTexture, backGroundRectangle, Color.Green);
-            enemies.ForEach(enemy => enemy.Draw(Game._spriteBatch));
+            Enemies.ForEach(enemy => enemy.Draw(Game._spriteBatch));
             foreach (var item in BlockArray)
             {
                 if (item != null) item.Draw(Game._spriteBatch);
             }
-            hero.Draw(Game._spriteBatch);
+            Hero.Draw(Game._spriteBatch);
             Game._spriteBatch.End();
         }
     }

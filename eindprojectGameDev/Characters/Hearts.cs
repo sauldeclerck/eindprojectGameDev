@@ -1,11 +1,7 @@
 ﻿using eindprojectGameDev.interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eindprojectGameDev.Characters
 {
@@ -24,7 +20,7 @@ namespace eindprojectGameDev.Characters
             for (int i = 0; i < _character.Health.lives; i++)
             {
                 hearts.Add(new Rectangle(25 * i, 0, 20, 20));
-            }    
+            }
         }
         public void Draw(SpriteBatch _spriteBatch)
         {

@@ -1,12 +1,7 @@
 ﻿using eindprojectGameDev.Characters.Enemies;
-using eindprojectGameDev.interfaces;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eindprojectGameDev.World
 {
@@ -14,7 +9,7 @@ namespace eindprojectGameDev.World
     {
         public static ContentManager Content;
         public static List<Block> defaultBlocks = new List<Block>();
-        public static List<ICharacter> enemies = new List<ICharacter>();
+        public static List<NPC> enemies = new List<NPC>();
         public static MouseState MouseState = new MouseState();
         public static void Reset()
         {
@@ -26,7 +21,7 @@ namespace eindprojectGameDev.World
             GameManager.Content = Content;
         }
 
-        public static void DoDamage(int amount, ICharacter character)
+        public static void DoDamage(int amount, NPC character)
         {
             character.TakeDamage(amount);
         }

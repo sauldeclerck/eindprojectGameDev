@@ -1,19 +1,13 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using MonoGame.Extended.Screens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using eindprojectGameDev.Characters.Enemies;
-using eindprojectGameDev.World;
+﻿using eindprojectGameDev.Characters.Enemies;
 using eindprojectGameDev.Characters.Player;
-using eindprojectGameDev.interfaces;
-
+using eindprojectGameDev.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Screens;
+using System.Collections.Generic;
 namespace eindprojectGameDev.Map
 {
-    public class Level1 : GameScreen
+    public class Level1 : GameScreen, ILevel
     {
         private Texture2D backgroundTexture;
         private Texture2D tileSetTexture;
@@ -89,14 +83,15 @@ namespace eindprojectGameDev.Map
             { '.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.'},
             { '.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.'},
         };
-        private Block[,] BlockArray;
-        private Hero hero;
-        List<ICharacter> enemies = new List<ICharacter>();
+        public Block[,] BlockArray { get; set; }
+        public Hero Hero { get; set; }
+        public List<NPC> Enemies { get; set; }
         public Level1(Game1 game) : base(game) { }
 
         public override void LoadContent()
         {
             base.LoadContent();
+            Enemies = new List<NPC>();
             backgroundTexture = Content.Load<Texture2D>("background");
             tileSetTexture = Content.Load<Texture2D>("tileset");
             BlockArray = BlockFactory.CreateBlocks(charArray, tileSetTexture, Game.Content);
@@ -104,18 +99,23 @@ namespace eindprojectGameDev.Map
             {
                 GameManager.defaultBlocks.Add(item);
             }
-            hero = new Hero(Content, 170,170);
-
-            enemies.Add(new Daemon(1100, 875, Content));
-            enemies.Add(new Daemon(800, 910, Content));
-            enemies.Add(new porcupine(680, 975, Content));
-            enemies.ForEach(item => GameManager.enemies.Add(item));
+            Hero = new Hero(Content, 170, 800);
+            GameManager.enemies.Clear();
+            Enemies.Add(new Enemy(1100, 875, Content, EnemyTypes.EnemyType.Daemon));
+            Enemies.Add(new Enemy(800, 910, Content, EnemyTypes.EnemyType.Daemon));
+            Enemies.Add(new Enemy(680, 975, Content, EnemyTypes.EnemyType.Porcupine));
+            Enemies.ForEach(item => GameManager.enemies.Add(item));
         }
 
         public override void Update(GameTime gameTime)
         {
-            hero.Update(gameTime);
-            enemies.ForEach(enemy => enemy.Update(gameTime));
+            Hero.Update(gameTime);
+            Enemies.ForEach(enemy => enemy.Update(gameTime));
+            GameState.gameState = (Hero.Hitbox.Right > GlobalSettings.Width) ? GameStates.level2 : GameStates.level1;
+            if (Hero.Hitbox.Left < 0)
+            {
+                GameState.gameState = GameStates.menu;
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -123,16 +123,13 @@ namespace eindprojectGameDev.Map
             Game.GraphicsDevice.Clear(new Color(16, 139, 204));
             Game._spriteBatch.Begin();
             Game._spriteBatch.Draw(backgroundTexture, backGroundRectangle, Color.Purple);
-            enemies.ForEach(enemy => enemy.Draw(Game._spriteBatch));
-            
+            Enemies.ForEach(enemy => enemy.Draw(Game._spriteBatch));
+
             foreach (var item in BlockArray)
             {
-                if (item != null)
-                {
-                    item.Draw(Game._spriteBatch);
-                }
+                if (item != null) item.Draw(Game._spriteBatch);
             }
-            hero.Draw(Game._spriteBatch);
+            Hero.Draw(Game._spriteBatch);
             Game._spriteBatch.End();
         }
     }

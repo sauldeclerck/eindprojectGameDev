@@ -1,22 +1,9 @@
 ﻿using eindprojectGameDev.Animations;
 using eindprojectGameDev.interfaces;
-using eindprojectGameDev.Map;
 using eindprojectGameDev.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using SharpDX.Direct2D1;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using MessageBox = System.Windows.Forms.MessageBox;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
 namespace eindprojectGameDev.Characters.Player
@@ -35,14 +22,14 @@ namespace eindprojectGameDev.Characters.Player
         public Hero(ContentManager content, int positionX, int positionY)
         {
             PlayerMovement = new PlayerMovement();
-            Position = new Vector2(positionX, positionY);
+            StartPosition = new Vector2(positionX, positionY);
+            Position = StartPosition;
             nextPositionH = new Vector2(positionX, positionY);
             nextPositionV = new Vector2(positionX, positionY);
             Texture = content.Load<Texture2D>("Cacodaemon Sprite Sheet");
             HealthBar = new HealthBar(content.Load<Texture2D>("Red_Rectangle"));
             Hearts = new Hearts(content.Load<Texture2D>("heart"));
             spriteWidth = 160 / 3;
-            //animation.GetFramesFromTextureProperties(2 * 160, 0 * 96, 2, 96);
             Health = new Health(3, 100);
             Texture = content.Load<Texture2D>("GoblinHero");
             Animations = new Animation[4]
@@ -74,12 +61,6 @@ namespace eindprojectGameDev.Characters.Player
             currentAnimation.Update(gameTime);
             Hearts.Update(this);
             Hitbox = new Rectangle((int)nextPositionH.X + 50, (int)nextPositionV.Y + 42, spriteWidth, spriteWidth);
-            if (PlayerMovement.ReadIsFighting())
-            {
-                CheckFlip(direction);
-                currentAnimation = Animations[2];
-                Animations[2].GetFramesFromTextureProperties(7 * 160, 2 * 96, 7, 96);
-            }
             currentAnimation.Update(gameTime);
             CheckEnemyHit();
         }
@@ -98,10 +79,13 @@ namespace eindprojectGameDev.Characters.Player
         {
             foreach (var item in GameManager.enemies)
             {
-                if (Hitbox.Intersects(item.Hitbox))
+                if (item.isActive)
                 {
-                    GameManager.DoDamage(50, item);
-                    //TakeDamage(50);
+                    if (Hitbox.Intersects(item.Hitbox))
+                    {
+                        GameManager.DoDamage(50, item);
+                        TakeDamage(50);
+                    }
                 }
             }
         }
@@ -110,40 +94,6 @@ namespace eindprojectGameDev.Characters.Player
         {
             Flip = direction.X >= 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
         }
-
-        public bool CheckCollision(Rectangle nextPosition)
-        {
-            foreach (var item in GameManager.defaultBlocks)
-            {
-                if (item != null)
-                {
-                    if (nextPosition.Intersects(item.Hitbox))
-                    {
-                        return true;
-                    }
-                    else
-                        continue;
-                }
-            }
-            return false;
-        }
-
-        public void TakeDamage(int amount)
-        {
-            if (Health.health - amount <= 0)
-            {
-                Health.lives--;
-                if (Health.lives > 0)
-                {
-                    Health.health = Health.maxHealth;
-                }
-            }
-            else
-            {
-                Health.health -= amount;
-            }
-        }
-
 
         public Vector2 Gravity(Vector2 Position)
         {
@@ -158,12 +108,7 @@ namespace eindprojectGameDev.Characters.Player
 
         public void SetAnimation(Vector2 direction)
         {
-            if (direction.X < 0)
-            {
-                currentAnimation = Animations[1];
-                Animations[1].GetFramesFromTextureProperties(8 * 160, 1 * 96, 8, 96);
-            }
-            else if (direction.X > 0)
+            if (direction.X != 0)
             {
                 currentAnimation = Animations[1];
                 Animations[1].GetFramesFromTextureProperties(8 * 160, 1 * 96, 8, 96);
@@ -178,6 +123,11 @@ namespace eindprojectGameDev.Characters.Player
             {
                 currentAnimation = Animations[3];
                 Animations[3].GetFramesFromTextureProperties(6 * 160, 4 * 96, 6, 96);
+            }
+            if (PlayerMovement.ReadIsFighting())
+            {
+                currentAnimation = Animations[2];
+                Animations[2].GetFramesFromTextureProperties(7 * 160, 2 * 96, 7, 96);
             }
         }
 
