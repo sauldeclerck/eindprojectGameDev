@@ -57,11 +57,13 @@ namespace eindprojectGameDev.Characters.Player
             if (!CheckCollision(nextHitboxH)) { SetPosition(new Vector2(nextPositionH.X, Position.Y)); }
             if (!CheckCollision(nextHitboxV)) { SetPosition(new Vector2(Position.X, nextPositionV.Y)); }
             else canJump = true;
-            if (PlayerMovement.ReadIsFighting() && direction.X >= 0)
+            SetAnimation(direction);
+            currentAnimation.Update(gameTime);
+            if (PlayerMovement.ReadIsFighting() && direction.X >= 0 && currentAnimation.counter % 6 == 0)
             {
                 hitRectangle = new Rectangle((int)(Position.X + spriteWidth * 2), (int)Position.Y + 20, 54, 80);
             }
-            else if (PlayerMovement.ReadIsFighting() && direction.X < 0)
+            else if (PlayerMovement.ReadIsFighting() && direction.X < 0 && currentAnimation.counter % 6 == 0)
             {
                 hitRectangle = new Rectangle((int)(Position.X), (int)Position.Y + 20, 54, 80);
             }
@@ -69,8 +71,6 @@ namespace eindprojectGameDev.Characters.Player
             {
                 hitRectangle = new Rectangle(0, 0, 0, 0);
             }
-            SetAnimation(direction);
-            currentAnimation.Update(gameTime);
             Hearts.Update(this);
             Hitbox = new Rectangle((int)nextPositionH.X + 50, (int)nextPositionV.Y + 42, spriteWidth, spriteWidth);
             currentAnimation.Update(gameTime);
@@ -144,6 +144,10 @@ namespace eindprojectGameDev.Characters.Player
             if (PlayerMovement.ReadIsFighting())
             {
                 currentAnimation = Animations[2];
+                if (currentAnimation.counter == currentAnimation.frames.Count)
+                {
+                    currentAnimation.counter = 0;
+                }
                 Animations[2].GetFramesFromTextureProperties(7 * 160, 2 * 96, 7, 96);
             }
         }
