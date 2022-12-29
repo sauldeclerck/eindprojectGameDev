@@ -26,11 +26,10 @@ namespace eindprojectGameDev.Characters.Player
             Position = StartPosition;
             nextPositionH = new Vector2(positionX, positionY);
             nextPositionV = new Vector2(positionX, positionY);
-            Texture = content.Load<Texture2D>("Cacodaemon Sprite Sheet");
             HealthBar = new HealthBar(content.Load<Texture2D>("Red_Rectangle"));
             Hearts = new Hearts(content.Load<Texture2D>("heart"));
             spriteWidth = 160 / 3;
-            Health = new Health(3, 100);
+            Health = new Health(2, 100);
             Texture = content.Load<Texture2D>("GoblinHero");
             Animations = new Animation[4]
         {
@@ -63,6 +62,7 @@ namespace eindprojectGameDev.Characters.Player
             Hitbox = new Rectangle((int)nextPositionH.X + 50, (int)nextPositionV.Y + 42, spriteWidth, spriteWidth);
             currentAnimation.Update(gameTime);
             CheckEnemyHit();
+            
         }
 
         public void Draw(SpriteBatch _spriteBatch)

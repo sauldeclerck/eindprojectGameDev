@@ -67,7 +67,11 @@ namespace eindprojectGameDev
                     case GameStates.level2:
                         LoadLevel2();
                         break;
+                    case GameStates.victory:
+                        LoadEnd();
+                        break;
                     case GameStates.gameover:
+                        LoadEnd();
                         break;
                     case GameStates.exit:
                         Application.Exit();
@@ -94,6 +98,10 @@ namespace eindprojectGameDev
         public void LoadStart()
         {
             _screenManager.LoadScreen(new Start(this), new FadeTransition(GraphicsDevice, Color.Black));
+        }
+        public void LoadEnd()
+        {
+            _screenManager.LoadScreen(new EndMenu(this), new FadeTransition(GraphicsDevice, Color.Black));
         }
         public void LoadLevel1()
         {

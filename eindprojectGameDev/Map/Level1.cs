@@ -9,8 +9,8 @@ namespace eindprojectGameDev.Map
 {
     public class Level1 : GameScreen, ILevel
     {
-        private Texture2D backgroundTexture;
-        private Texture2D tileSetTexture;
+        public Texture2D BackgroundTexture { get; set; }
+        public Texture2D TileSetTexture { get; set; }
         private Rectangle backGroundRectangle = new Rectangle(0, 0, GlobalSettings.Width, GlobalSettings.Height);
         private new Game1 Game => (Game1)base.Game;
         char[,] charArray = new char[67, 120]
@@ -92,9 +92,10 @@ namespace eindprojectGameDev.Map
         {
             base.LoadContent();
             Enemies = new List<NPC>();
-            backgroundTexture = Content.Load<Texture2D>("background");
-            tileSetTexture = Content.Load<Texture2D>("tileset");
-            BlockArray = BlockFactory.CreateBlocks(charArray, tileSetTexture, Game.Content);
+            BackgroundTexture = Content.Load<Texture2D>("background");
+            TileSetTexture = Content.Load<Texture2D>("tileset");
+            BlockArray = BlockFactory.CreateBlocks(charArray, TileSetTexture, Game.Content);
+            GameManager.defaultBlocks.Clear();
             foreach (var item in BlockArray)
             {
                 GameManager.defaultBlocks.Add(item);
@@ -112,17 +113,15 @@ namespace eindprojectGameDev.Map
             Hero.Update(gameTime);
             Enemies.ForEach(enemy => enemy.Update(gameTime));
             GameState.gameState = (Hero.Hitbox.Right > GlobalSettings.Width) ? GameStates.level2 : GameStates.level1;
-            if (Hero.Hitbox.Left < 0)
-            {
-                GameState.gameState = GameStates.menu;
-            }
+            if (Hero.Health.health <= 0) GameState.gameState = GameStates.gameover;
+            if (Hero.Hitbox.Left < 0) GameState.gameState = GameStates.menu;
         }
 
         public override void Draw(GameTime gameTime)
         {
             Game.GraphicsDevice.Clear(new Color(16, 139, 204));
             Game._spriteBatch.Begin();
-            Game._spriteBatch.Draw(backgroundTexture, backGroundRectangle, Color.Purple);
+            Game._spriteBatch.Draw(BackgroundTexture, backGroundRectangle, Color.Purple);
             Enemies.ForEach(enemy => enemy.Draw(Game._spriteBatch));
 
             foreach (var item in BlockArray)

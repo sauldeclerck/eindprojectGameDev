@@ -22,11 +22,19 @@ namespace eindprojectGameDev.Characters
         {
             if (this.Health.health - amount <= 0)
             {
-                ResetPosition();
+                if (Health.lives != 0)
+                {
+                    ResetPosition();
+                }
                 this.Health.lives--;
                 if (this.Health.lives > 0)
                 {
                     this.Health.health = this.Health.maxHealth;
+                }
+                else
+                {
+                    Health.health = 0;
+                    Health.lives = 0;
                 }
             }
             else
