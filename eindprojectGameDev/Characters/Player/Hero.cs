@@ -3,8 +3,11 @@ using eindprojectGameDev.interfaces;
 using eindprojectGameDev.Map;
 using eindprojectGameDev.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
+using System.Collections.Generic;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
 namespace eindprojectGameDev.Characters.Player
@@ -21,10 +24,16 @@ namespace eindprojectGameDev.Characters.Player
         public float gravityForce = 2f;
         private Hearts Hearts;
         private Color color { get; set; }
+        private List<SoundEffect> soundEffects;
         #endregion
 
         public Hero(ContentManager content, int positionX, int positionY)
         {
+            soundEffects = new List<SoundEffect>
+            {
+                content.Load<SoundEffect>("jump")
+            };
+            soundEffects[0].CreateInstance().Volume = 0.4f;
             PlayerMovement = new PlayerMovement();
             StartPosition = new Vector2(positionX, positionY);
             Position = StartPosition;
@@ -192,6 +201,7 @@ namespace eindprojectGameDev.Characters.Player
                 {
                     nextPositionV += new Vector2(0, jumpSpeed);//Making it go up
                     jumpSpeed += 1;//Some math (explained later)
+                    soundEffects[0].Play();
                 }
 
                 if (nextPositionV.Y >= startY)

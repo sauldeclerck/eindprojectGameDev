@@ -47,3 +47,6 @@ C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin
 C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
 C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\Content\kobold.xnb
 C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\Content\darkred.xnb
+C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\Content\jump.xnb
+C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\Content\music.wma
+C:\Users\saulb\Desktop\2ITSOF1\gamedev\eindprojectGameDev\eindprojectGameDev\bin\Debug\net6.0-windows\Content\music.xnb

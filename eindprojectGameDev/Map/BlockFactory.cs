@@ -1,5 +1,9 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using eindprojectGameDev.Characters.Enemies;
+using eindprojectGameDev.Characters.Player;
+using eindprojectGameDev.World;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace eindprojectGameDev.Map
 {
@@ -56,13 +60,13 @@ namespace eindprojectGameDev.Map
                     {
                         case '.':
                             //first row
-                            if (upperChar == '#')
+                            if (upperChar != '.')
                             {
-                                if (previousChar == '#')
+                                if (previousChar != '.')
                                 {
                                     Tileset[k, l] = new Block(0, 0, l * 16, (16 * k), content);
                                 }
-                                else if (nextChar == '#')
+                                else if (nextChar != '.')
                                 {
                                     Tileset[k, l] = new Block(0, 2, l * 16, (16 * k), content);
                                 }
@@ -75,7 +79,7 @@ namespace eindprojectGameDev.Map
                             //second row
                             else if (upperChar == '.' && underChar == '.')
                             {
-                                if (previousChar == '#' && nextChar == '.')
+                                if (previousChar != '.' && nextChar == '.')
                                 {
                                     Tileset[k, l] = new Block(1, 0, l * 16, (16 * k), content);
                                 }
@@ -105,6 +109,30 @@ namespace eindprojectGameDev.Map
                                     Tileset[k, l] = new Block(2, 2, l * 16, (16 * k), content);
                                 }
                             }
+                            break;
+                        case '*':
+                            //4 lines above block
+                            GameManager.enemies.Add(new Enemy(l*16,k*16, content, EnemyTypes.EnemyType.Daemon));
+                            break;
+                        case '-':
+                            //2 lines above block
+                            GameManager.enemies.Add(new Enemy(l * 16, k * 16, content, EnemyTypes.EnemyType.Porcupine));
+                            break;
+                        case '_':
+                            //4 lines above block
+                            GameManager.enemies.Add(new Enemy(l * 16, k * 16, content, EnemyTypes.EnemyType.kobold));
+                            break;
+                        case 's':
+                            //1 lines above block
+                            GameManager.PowerUps.Add(new PowerUp(content, l * 16, k * 16 , PowerUpType.PowerUpTypes.speed));
+                            break;
+                        case 'p':
+                            //1 lines above block
+                            GameManager.PowerUps.Add(new PowerUp(content, l * 16, k * 16, PowerUpType.PowerUpTypes.damage));
+                            break;
+                        case 'h':
+                            //5 lines above block
+                            GameManager.Hero = new Hero(content, l * 16, k * 16);
                             break;
                         default:
                             Tileset[k, l] = null;

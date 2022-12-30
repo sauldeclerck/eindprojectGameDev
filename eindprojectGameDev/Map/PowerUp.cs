@@ -39,6 +39,7 @@ namespace eindprojectGameDev.Map
             if (isActive)
             {
                 spriteBatch.Draw(Texture, Position, Hitbox, Color.White);
+                //spriteBatch.Draw(Texture, Position, Hitbox, Color.White, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using eindprojectGameDev.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Screens;
 using System.Windows.Forms;
 using Button = eindprojectGameDev.World.Button;
@@ -28,6 +29,13 @@ namespace eindprojectGameDev.Map
         public override void LoadContent()
         {
             base.LoadContent();
+            if (!GameManager.musicStarted)
+            {
+                GameManager.song = Content.Load<Song>("music");
+                MediaPlayer.IsRepeating = true;
+                MediaPlayer.Play(GameManager.song);
+                GameManager.musicStarted= true;
+            }
             backgroundTexture = Content.Load<Texture2D>("background");
             buttonLvl1 = new Button(Level1Rectangle, "darkred", "Level 1", Content);
             buttonLvl1.onClick += delegate { GameState.gameState = GameStates.level1; };

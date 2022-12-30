@@ -7,8 +7,6 @@ namespace eindprojectGameDev.Map
 {
     public interface ILevel
     {
-        List<NPC> Enemies { get; set; }
-        Hero Hero { get; set; }
         Block[,] BlockArray { get; set; }
         Texture2D BackgroundTexture { get; set; }
         Texture2D TileSetTexture { get; set; }
