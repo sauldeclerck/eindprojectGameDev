@@ -3,6 +3,7 @@ using eindprojectGameDev.Characters.Player;
 using eindprojectGameDev.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.Screens;
 using System.Collections.Generic;
 namespace eindprojectGameDev.Map
@@ -134,6 +135,7 @@ namespace eindprojectGameDev.Map
             Game._spriteBatch.Begin();
             Game._spriteBatch.Draw(BackgroundTexture, backGroundRectangle, Color.Purple);
             PowerUp.ForEach(e => e.Draw(Game._spriteBatch));
+            Game._spriteBatch.DrawString(Content.Load<SpriteFont>("GameFont"), "speed and damage boost", new Vector2(320, 850), Color.Green,0f, new Vector2(0,0), 0.3f, SpriteEffects.None, 0f);
             Enemies.ForEach(enemy => enemy.Draw(Game._spriteBatch));
             foreach (var item in BlockArray)
             {

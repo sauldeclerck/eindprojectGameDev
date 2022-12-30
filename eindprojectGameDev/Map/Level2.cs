@@ -101,7 +101,7 @@ namespace eindprojectGameDev.Map
             PowerUps = new List<PowerUp>()
             {
                 new PowerUp(Content, 600,610, PowerUpType.PowerUpTypes.damage),
-                new PowerUp(Content, 180,850, PowerUpType.PowerUpTypes.speed),
+                new PowerUp(Content, 50,704, PowerUpType.PowerUpTypes.speed),
             };
             PowerUps.ForEach(e => GameManager.PowerUps.Add(e));
             foreach (var item in BlockArray)
@@ -114,7 +114,8 @@ namespace eindprojectGameDev.Map
                 new Enemy(1100, 875, Content, EnemyTypes.EnemyType.Daemon),
                 new Enemy(800, 910, Content, EnemyTypes.EnemyType.Daemon),
                 new Enemy(680, 975, Content, EnemyTypes.EnemyType.Porcupine),
-                new Enemy(400, 590, Content, EnemyTypes.EnemyType.kobold)
+                new Enemy(400, 590, Content, EnemyTypes.EnemyType.kobold),
+                new Enemy(1200, 448, Content, EnemyTypes.EnemyType.kobold)
             };
             Enemies.ForEach(enemy => GameManager.enemies.Add(enemy));
         }

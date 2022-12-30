@@ -64,11 +64,11 @@ namespace eindprojectGameDev.Characters.Player
             else canJump = true;
             SetAnimation(direction);
             currentAnimation.Update(gameTime);
-            if (PlayerMovement.ReadIsFighting() && direction.X >= 0 && currentAnimation.counter % 6 == 0)
+            if (PlayerMovement.ReadIsFighting() && Flip == SpriteEffects.None && currentAnimation.counter % 6 == 0)
             {
                 hitRectangle = new Rectangle((int)(Position.X + spriteWidth * 2), (int)Position.Y + 20, 54, 80);
             }
-            else if (PlayerMovement.ReadIsFighting() && direction.X < 0 && currentAnimation.counter % 6 == 0)
+            else if (PlayerMovement.ReadIsFighting() && Flip == SpriteEffects.FlipHorizontally && currentAnimation.counter % 6 == 0)
             {
                 hitRectangle = new Rectangle((int)(Position.X), (int)Position.Y + 20, 54, 80);
             }
