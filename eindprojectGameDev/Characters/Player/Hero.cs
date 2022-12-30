@@ -70,7 +70,7 @@ namespace eindprojectGameDev.Characters.Player
             CheckFlip(direction);
             if (!CheckCollision(nextHitboxH)) { SetPosition(new Vector2(nextPositionH.X, Position.Y)); }
             if (!CheckCollision(nextHitboxV)) { SetPosition(new Vector2(Position.X, nextPositionV.Y)); }
-            else canJump = true;
+            else { canJump = true; gravityForce = 2f; }
             SetAnimation(direction);
             currentAnimation.Update(gameTime);
             if (PlayerMovement.ReadIsFighting() && Flip == SpriteEffects.None && currentAnimation.counter % 6 == 0)
@@ -159,6 +159,7 @@ namespace eindprojectGameDev.Characters.Player
         public Vector2 Gravity(Vector2 Position)
         {
             Position.Y += gravityForce;
+            gravityForce+= 0.1f;
             return Position;
         }
 

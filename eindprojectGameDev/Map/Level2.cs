@@ -15,7 +15,7 @@ namespace eindprojectGameDev.Map
 
         public override void LoadContent()
         {
-            base.nextState = GameStates.victory;
+            base.nextState = GameStates.level3;
             base.previousState = GameStates.level1;
             base.currentState = GameStates.level2;
             base.BackGroundColor = Color.Green;
