@@ -14,7 +14,7 @@ namespace eindprojectGameDev.Map
         public Texture2D TileSetTexture { get; set; }
         private Rectangle backGroundRectangle = new Rectangle(0, 0, GlobalSettings.Width, GlobalSettings.Height);
         private new Game1 Game => (Game1)base.Game;
-
+        public List<PowerUp> PowerUps { get; set; }
         public List<NPC> Enemies { get; set; }
         public Hero Hero { get; set; }
         public Block[,] BlockArray { get; set; }
@@ -94,21 +94,28 @@ namespace eindprojectGameDev.Map
         public override void LoadContent()
         {
             base.LoadContent();
-            Enemies = new List<NPC>();
+            GameManager.Reset();
             BackgroundTexture = Content.Load<Texture2D>("background");
             TileSetTexture = Content.Load<Texture2D>("tileset");
             BlockArray = BlockFactory.CreateBlocks(charArray, TileSetTexture, Game.Content);
-            GameManager.defaultBlocks.Clear();
-
+            PowerUps = new List<PowerUp>()
+            {
+                new PowerUp(Content, 600,610, PowerUpType.PowerUpTypes.damage),
+                new PowerUp(Content, 180,850, PowerUpType.PowerUpTypes.speed),
+            };
+            PowerUps.ForEach(e => GameManager.PowerUps.Add(e));
             foreach (var item in BlockArray)
             {
                 GameManager.defaultBlocks.Add(item);
             }
             Hero = new Hero(Content, 40, 800);
-            GameManager.enemies.Clear();
-            Enemies.Add(new Enemy(1100, 875, Content, EnemyTypes.EnemyType.Daemon));
-            Enemies.Add(new Enemy(800, 910, Content, EnemyTypes.EnemyType.Daemon));
-            Enemies.Add(new Enemy(680, 975, Content, EnemyTypes.EnemyType.Porcupine));
+            Enemies = new List<NPC>
+            {
+                new Enemy(1100, 875, Content, EnemyTypes.EnemyType.Daemon),
+                new Enemy(800, 910, Content, EnemyTypes.EnemyType.Daemon),
+                new Enemy(680, 975, Content, EnemyTypes.EnemyType.Porcupine),
+                new Enemy(400, 590, Content, EnemyTypes.EnemyType.kobold)
+            };
             Enemies.ForEach(enemy => GameManager.enemies.Add(enemy));
         }
 
@@ -126,6 +133,7 @@ namespace eindprojectGameDev.Map
             Game.GraphicsDevice.Clear(new Color(16, 139, 204));
             Game._spriteBatch.Begin();
             Game._spriteBatch.Draw(BackgroundTexture, backGroundRectangle, Color.Green);
+            PowerUps.ForEach(e => e.Draw(Game._spriteBatch));
             Enemies.ForEach(enemy => enemy.Draw(Game._spriteBatch));
             foreach (var item in BlockArray)
             {

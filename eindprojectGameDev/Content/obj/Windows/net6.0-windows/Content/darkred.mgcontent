@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/kobold.png</SourceFile>
-  <SourceTime>2022-12-29T16:36:05.049778+01:00</SourceTime>
-  <DestFile>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/bin/Windows/kobold.xnb</DestFile>
-  <DestTime>2022-12-29T21:25:10.7930267+01:00</DestTime>
+  <SourceFile>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/darkred.png</SourceFile>
+  <SourceTime>2022-12-29T21:49:43.4949143+01:00</SourceTime>
+  <DestFile>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/bin/Windows/Content/darkred.xnb</DestFile>
+  <DestTime>2022-12-29T21:50:29.6561739+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

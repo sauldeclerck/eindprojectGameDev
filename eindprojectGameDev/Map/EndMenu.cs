@@ -13,9 +13,9 @@ namespace eindprojectGameDev.Map
     public class EndMenu : GameScreen
     {
         private new Game1 Game => (Game1)base.Game;
-        private Vector2 TextVector = new Vector2(GlobalSettings.Width / 2, 200);
-        private Rectangle RestartRectangle = new Rectangle(GlobalSettings.Width / 2, 500, 200, 100);
-        private Rectangle MenuRectangle = new Rectangle(GlobalSettings.Width / 2, 700, 200, 100);
+        private Vector2 TextVector = new Vector2(GlobalSettings.Width / 2-150, 250);
+        private Rectangle RestartRectangle = new Rectangle(GlobalSettings.Width / 2-100, 500, 200, 100);
+        private Rectangle MenuRectangle = new Rectangle(GlobalSettings.Width / 2-100, 700, 200, 100);
         private Texture2D backgroundTexture;
         private string Text;
         private Rectangle backGroundRectangle = new Rectangle(0, 0, GlobalSettings.Width, GlobalSettings.Height);
@@ -32,9 +32,9 @@ namespace eindprojectGameDev.Map
             color = GameState.gameState == GameStates.victory ? Color.Green : Color.Red;
             SpriteFont = Game.Content.Load<SpriteFont>("GameFont");
             backgroundTexture = Content.Load<Texture2D>("background");
-            ButtonRestart = new Button(RestartRectangle, "Red_Rectangle", "Restart", Content);
+            ButtonRestart = new Button(RestartRectangle, "darkred", "Restart", Content);
             ButtonRestart.onClick += delegate { GameState.gameState = GameStates.level1; };
-            buttonMenu = new Button(MenuRectangle, "Red_Rectangle", "Menu", Content);
+            buttonMenu = new Button(MenuRectangle, "darkred", "Menu", Content);
             buttonMenu.onClick += delegate { GameState.gameState = GameStates.menu; };
         }
 
@@ -49,7 +49,7 @@ namespace eindprojectGameDev.Map
             Game.GraphicsDevice.Clear(Color.White);
             Game._spriteBatch.Begin();
             Game._spriteBatch.Draw(backgroundTexture, backGroundRectangle, Color.Purple);
-            Game._spriteBatch.DrawString(SpriteFont, Text, TextVector, color);
+            Game._spriteBatch.DrawString(SpriteFont, Text, TextVector, color, 0f, new Vector2(0, 0), 3f, SpriteEffects.None, 0f);
             ButtonRestart.Draw(Game._spriteBatch);
             buttonMenu.Draw(Game._spriteBatch);
             Game._spriteBatch.End();

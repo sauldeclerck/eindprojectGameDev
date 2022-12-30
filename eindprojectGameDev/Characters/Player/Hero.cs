@@ -1,5 +1,6 @@
 ﻿using eindprojectGameDev.Animations;
 using eindprojectGameDev.interfaces;
+using eindprojectGameDev.Map;
 using eindprojectGameDev.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -14,10 +15,12 @@ namespace eindprojectGameDev.Characters.Player
         public Animation currentAnimation = new Animation();
         public HealthBar HealthBar { get; set; }
         public Rectangle hitRectangle { get; set; }
+        public int Damage { get; set; } = 10;
         public int speed = 5;
         public int spriteWidth { get; set; }
         public float gravityForce = 2f;
         private Hearts Hearts;
+        private Color color { get; set; }
         #endregion
 
         public Hero(ContentManager content, int positionX, int positionY)
@@ -25,12 +28,14 @@ namespace eindprojectGameDev.Characters.Player
             PlayerMovement = new PlayerMovement();
             StartPosition = new Vector2(positionX, positionY);
             Position = StartPosition;
+            color = Color.White;
+            Flip = SpriteEffects.None;
             nextPositionH = new Vector2(positionX, positionY);
             nextPositionV = new Vector2(positionX, positionY);
             HealthBar = new HealthBar(content.Load<Texture2D>("Red_Rectangle"));
             Hearts = new Hearts(content.Load<Texture2D>("heart"));
             spriteWidth = 160 / 3;
-            Health = new Health(2, 100);
+            Health = new Health(1, 100);
             Texture = content.Load<Texture2D>("GoblinHero");
             Animations = new Animation[4]
         {
@@ -76,7 +81,7 @@ namespace eindprojectGameDev.Characters.Player
             currentAnimation.Update(gameTime);
             CheckEnemyHit(Hitbox, true);
             CheckEnemyHit(hitRectangle, false);
-
+            CheckPowerUp();
         }
 
         public void Draw(SpriteBatch _spriteBatch)
@@ -85,7 +90,34 @@ namespace eindprojectGameDev.Characters.Player
             Hearts.Draw(_spriteBatch);
             if (currentAnimation.CurrentFrame != null)
             {
-                _spriteBatch.Draw(Texture, Position, currentAnimation.CurrentFrame.SourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, Flip, 0);
+                _spriteBatch.Draw(Texture, Position, currentAnimation.CurrentFrame.SourceRectangle, color, 0f, new Vector2(0, 0), 1f, Flip, 0);
+            }
+        }
+
+        public void CheckPowerUp()
+        {
+            if (GameManager.EnablePowerUps)
+            {
+                foreach (var item in GameManager.PowerUps)
+                {
+                    if (item.isActive)
+                    {
+                        if (Hitbox.Intersects(item.BoundingBox))
+                        {
+                            item.isActive = false;
+                            switch (item.Type)
+                            {
+                                case PowerUpType.PowerUpTypes.speed:
+                                    speed += 2;
+                                    break;
+                                case PowerUpType.PowerUpTypes.damage:
+                                    Damage += 10;
+                                    break;
+                            }
+                        }
+                    }
+                    continue;
+                }
             }
         }
 
@@ -97,7 +129,7 @@ namespace eindprojectGameDev.Characters.Player
                 {
                     if (hitbox.Intersects(item.Hitbox))
                     {
-                        GameManager.DoDamage(50, item);
+                        GameManager.DoDamage(100, item);
                         if (selfDamage)
                         {
                             TakeDamage(50);
@@ -109,7 +141,10 @@ namespace eindprojectGameDev.Characters.Player
 
         public void CheckFlip(Vector2 direction)
         {
-            Flip = direction.X >= 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            if (direction.X != 0)
+            {
+                Flip = direction.X > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            }
         }
 
         public Vector2 Gravity(Vector2 Position)

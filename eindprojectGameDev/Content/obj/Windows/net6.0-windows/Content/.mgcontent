@@ -6,6 +6,7 @@
   <SourceFiles>
     <File>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/background.jpg</File>
     <File>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/Cacodaemon Sprite Sheet.png</File>
+    <File>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/darkred.png</File>
     <File>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/GameFont.spritefont</File>
     <File>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/GoblinHero.png</File>
     <File>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/heart.png</File>
@@ -14,6 +15,7 @@
     <File>C:/Users/saulb/Desktop/2ITSOF1/gamedev/eindprojectGameDev/eindprojectGameDev/Content/tileset.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

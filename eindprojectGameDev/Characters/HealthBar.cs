@@ -14,7 +14,7 @@ namespace eindprojectGameDev.Characters
         }
         public void Update(Vector2 Position, Health health)
         {
-            healthBarRectangle = new Rectangle((int)Position.X + 50, (int)Position.Y + 20, health.health / 2, 10);
+            healthBarRectangle = new Rectangle((int)Position.X + 50, (int)Position.Y + 20, (int)health.health / 2, 10);
         }
 
         public void Draw(SpriteBatch _spriteBatch)

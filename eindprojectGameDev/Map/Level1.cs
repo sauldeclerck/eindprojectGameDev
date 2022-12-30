@@ -84,6 +84,7 @@ namespace eindprojectGameDev.Map
             { '.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.','.', '.', '.', '.', '.'},
         };
         public Block[,] BlockArray { get; set; }
+        private List<PowerUp> PowerUp = new List<PowerUp>();
         public Hero Hero { get; set; }
         public List<NPC> Enemies { get; set; }
         public Level1(Game1 game) : base(game) { }
@@ -91,20 +92,30 @@ namespace eindprojectGameDev.Map
         public override void LoadContent()
         {
             base.LoadContent();
-            Enemies = new List<NPC>();
+            GameManager.Reset();
+
+            PowerUp = new List<PowerUp>()
+            {
+                new PowerUp(Content, 350, 890, PowerUpType.PowerUpTypes.speed),
+                new PowerUp(Content, 370, 890, PowerUpType.PowerUpTypes.damage)
+            };
+            PowerUp.ForEach(e => GameManager.PowerUps.Add(e));
+
             BackgroundTexture = Content.Load<Texture2D>("background");
             TileSetTexture = Content.Load<Texture2D>("tileset");
             BlockArray = BlockFactory.CreateBlocks(charArray, TileSetTexture, Game.Content);
-            GameManager.defaultBlocks.Clear();
             foreach (var item in BlockArray)
             {
                 GameManager.defaultBlocks.Add(item);
             }
             Hero = new Hero(Content, 170, 800);
-            GameManager.enemies.Clear();
-            Enemies.Add(new Enemy(1100, 875, Content, EnemyTypes.EnemyType.Daemon));
-            Enemies.Add(new Enemy(800, 910, Content, EnemyTypes.EnemyType.kobold));
-            Enemies.Add(new Enemy(680, 975, Content, EnemyTypes.EnemyType.Porcupine));
+
+            Enemies = new List<NPC>
+            {
+                new Enemy(1100, 875, Content, EnemyTypes.EnemyType.Daemon),
+                new Enemy(800, 910, Content, EnemyTypes.EnemyType.kobold),
+                new Enemy(680, 975, Content, EnemyTypes.EnemyType.Porcupine)
+            };
             Enemies.ForEach(item => GameManager.enemies.Add(item));
         }
 
@@ -122,6 +133,7 @@ namespace eindprojectGameDev.Map
             Game.GraphicsDevice.Clear(new Color(16, 139, 204));
             Game._spriteBatch.Begin();
             Game._spriteBatch.Draw(BackgroundTexture, backGroundRectangle, Color.Purple);
+            PowerUp.ForEach(e => e.Draw(Game._spriteBatch));
             Enemies.ForEach(enemy => enemy.Draw(Game._spriteBatch));
             foreach (var item in BlockArray)
             {

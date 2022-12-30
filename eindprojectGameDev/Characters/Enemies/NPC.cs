@@ -19,8 +19,8 @@ namespace eindprojectGameDev.Characters.Enemies
             nextPositionV = Position;
             movement *= vector;
             nextPositionH += movement;
-            nextHitboxH = new Rectangle((int)nextPositionH.X, (int)nextPositionH.Y, spriteWidth, spriteWidth);
-            nextHitboxV = new Rectangle((int)nextPositionH.X, (int)nextPositionV.Y + 50, spriteWidth, 20);
+            nextHitboxH = new Rectangle((int)(nextPositionH.X), (int)nextPositionH.Y, spriteWidth, spriteWidth);
+            nextHitboxV = new Rectangle((int)(nextPositionH.X+20), (int)nextPositionV.Y+50, spriteWidth/4, 20);
             CheckNextPositions();
             Flip = movement.X > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
         }
