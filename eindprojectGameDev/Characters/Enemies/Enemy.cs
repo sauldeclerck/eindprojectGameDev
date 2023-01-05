@@ -1,4 +1,5 @@
 ﻿using eindprojectGameDev.Animations;
+using eindprojectGameDev.interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,8 +14,8 @@ using System.Threading.Tasks;
 
 namespace eindprojectGameDev.Characters.Enemies
 {
-    public class Enemy : NPC
-    {
+    public class Enemy : NPC, IMovable
+	{
         public Enemy(int positionX, int positionY, ContentManager content, EnemyTypes.EnemyType enemyType)
         {
             EnemyType = EnemyType;
