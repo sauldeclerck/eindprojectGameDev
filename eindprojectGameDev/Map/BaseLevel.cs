@@ -14,7 +14,9 @@ namespace eindprojectGameDev.Map
 {
     public class BaseLevel : GameScreen, ILevel
     {
-        public GameStates nextState, previousState, currentState;
+        public GameStates nextState { get; set; }
+        public GameStates previousState { get; set; }
+        public GameStates currentState { get; set; }
         public Rectangle BackGroundRectangle = new Rectangle(0, 0, GlobalSettings.Width, GlobalSettings.Height);
         public char[,] CharArray { get; set; }
         public Block[,] BlockArray { get; set; }
