@@ -1,28 +1,26 @@
 ﻿using eindprojectGameDev.Characters.Enemies;
 using eindprojectGameDev.Characters.Player;
 using eindprojectGameDev.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Screens;
 using System.Diagnostics;
 
 namespace eindprojectGameDev.Map
 {
-    public class BlockFactory
+    public static class BlockFactory
     {
-        enum blockOrder { first, middle, last };
+		enum blockOrder { first, middle, last };
+        
         public static Block[,] CreateBlocks(char[,] blockArray, Texture2D texture, ContentManager content)
         {
-            char previousChar = '#', currentChar = '#', nextChar = '#', upperChar = '#', underChar = '#';
+            char previousChar , currentChar, nextChar, upperChar, underChar = '#';
             Block[,] Tileset = new Block[blockArray.GetLength(0), blockArray.GetLength(1)];
 
             for (int k = 0; k < blockArray.GetLength(0); k++)
                 for (int l = 0; l < blockArray.GetLength(1); l++)
                 {
-                    previousChar = '#';
-                    nextChar = '#';
-                    upperChar = '#';
-                    underChar = '#';
-                    currentChar = '#';
                     //horizontaal
                     if (k == 0)
                     {
@@ -64,15 +62,15 @@ namespace eindprojectGameDev.Map
                             {
                                 if (previousChar != '.')
                                 {
-                                    Tileset[k, l] = new Block(0, 0, l * 16, (16 * k), content);
+                                    GameManager.defaultBlocks.Add(new Block(0, 0, l * 16, (16 * k), content));
                                 }
                                 else if (nextChar != '.')
                                 {
-                                    Tileset[k, l] = new Block(0, 2, l * 16, (16 * k), content);
+                                    GameManager.defaultBlocks.Add(new Block(0, 2, l * 16, (16 * k), content));
                                 }
                                 else
                                 {
-                                    Tileset[k, l] = new Block(0, 1, l * 16, (16 * k), content);
+									GameManager.defaultBlocks.Add(new Block(0, 1, l * 16, (16 * k), content));
                                 }
                             }
 
@@ -81,15 +79,15 @@ namespace eindprojectGameDev.Map
                             {
                                 if (previousChar != '.' && nextChar == '.')
                                 {
-                                    Tileset[k, l] = new Block(1, 0, l * 16, (16 * k), content);
+									GameManager.defaultBlocks.Add(new Block(1, 0, l * 16, (16 * k), content));
                                 }
                                 else if (previousChar == '.' && nextChar == '.')
                                 {
-                                    Tileset[k, l] = new Block(1, 1, l * 16, (16 * k), content);
+									GameManager.defaultBlocks.Add(new Block(1, 1, l * 16, (16 * k), content));
                                 }
                                 else if (previousChar == '.' && nextChar == '#')
                                 {
-                                    Tileset[k, l] = new Block(1, 2, l * 16, (16 * k), content);
+									GameManager.defaultBlocks.Add(new Block(1, 2, l * 16, (16 * k), content));
                                 }
                             }
 
@@ -98,15 +96,16 @@ namespace eindprojectGameDev.Map
                             {
                                 if (previousChar == '#')
                                 {
-                                    Tileset[k, l] = new Block(2, 0, l * 16, (16 * k), content);
+									GameManager.defaultBlocks.Add(new Block(2, 0, l * 16, (16 * k), content));
                                 }
                                 else if (previousChar == '.' && nextChar == '.')
                                 {
-                                    Tileset[k, l] = new Block(2, 1, l * 16, (16 * k), content);
+                                    GameManager.defaultBlocks.Add(new Block(2, 1, l * 16, (16 * k), content));
                                 }
                                 else if (previousChar == '.' && nextChar == '#')
                                 {
-                                    Tileset[k, l] = new Block(2, 2, l * 16, (16 * k), content);
+									/*Tileset[k, l] =*/
+									GameManager.defaultBlocks.Add(new Block(2, 2, l * 16, (16 * k), content));
                                 }
                             }
                             break;

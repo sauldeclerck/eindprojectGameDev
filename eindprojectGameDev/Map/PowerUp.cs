@@ -20,27 +20,28 @@ namespace eindprojectGameDev.Map
             Type = power;
             base.Texture = content.Load<Texture2D>("tileset");
             base.Position = new Vector2(positionX, positionY);
-            switch (power)
-            {
-                case PowerUpType.PowerUpTypes.speed:
-                    base.Hitbox = new Rectangle(0, 16 * 8, 16, 16);
-                    break;
-                case PowerUpType.PowerUpTypes.damage:
-                    base.Hitbox = new Rectangle(16, 16 * 8, 16, 16);
-                    break;
-                default:
-                    break;
-            }
+            SetHitBox(power);
             BoundingBox = new Rectangle(positionX, positionY, 16, 16);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (isActive)
-            {
-                spriteBatch.Draw(Texture, Position, Hitbox, Color.White);
-                //spriteBatch.Draw(Texture, Position, Hitbox, Color.White, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
-            }
+            if (isActive) spriteBatch.Draw(Texture, Position, Hitbox, Color.White);
         }
+
+        private void SetHitBox(PowerUpType.PowerUpTypes power)
+        {
+			switch (power)
+			{
+				case PowerUpType.PowerUpTypes.speed:
+					base.Hitbox = new Rectangle(0, 16 * 8, 16, 16);
+					break;
+				case PowerUpType.PowerUpTypes.damage:
+					base.Hitbox = new Rectangle(16, 16 * 8, 16, 16);
+					break;
+				default:
+					break;
+			}
+		}
     }
 }

@@ -31,15 +31,13 @@ namespace eindprojectGameDev
         {
             // TODO: Add your initialization logic here
             base.Initialize();
-
+            
             _graphics.IsFullScreen = true;
             _graphics.PreferredBackBufferHeight = GlobalSettings.Height;
             _graphics.PreferredBackBufferWidth = GlobalSettings.Width;
             _graphics.ApplyChanges();
 
             LoadStart();
-            //GameManager.SetContent(Content);
-            //LevelManager.Initialize();
         }
 
         protected override void LoadContent()
@@ -54,35 +52,7 @@ namespace eindprojectGameDev
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
                 Exit();
             //todo => add gamestates
-            if (previousState != GameState.gameState)
-            {
-                switch (GameState.gameState)
-                {
-                    case GameStates.menu:
-                        LoadStart();
-                        break;
-                    case GameStates.level1:
-                        LoadLevel1();
-                        break;
-                    case GameStates.level2:
-                        LoadLevel2();
-                        break;
-                    case GameStates.level3:
-                        LoadLevel3();
-                        break;
-                    case GameStates.victory:
-                        LoadEnd();
-                        break;
-                    case GameStates.gameover:
-                        LoadEnd();
-                        break;
-                    case GameStates.exit:
-                        Application.Exit();
-                        break;
-                    default:
-                        break;
-                }
-            }
+            CheckGameState();
             previousState = GameState.gameState;
             // TODO: Add your update logic here
             base.Update(gameTime);
@@ -97,6 +67,39 @@ namespace eindprojectGameDev
             _spriteBatch.End();
             base.Draw(gameTime);
         }
+
+        public void CheckGameState()
+        {
+			if (previousState != GameState.gameState)
+			{
+				switch (GameState.gameState)
+				{
+					case GameStates.menu:
+						LoadStart();
+						break;
+					case GameStates.level1:
+						LoadLevel1();
+						break;
+					case GameStates.level2:
+						LoadLevel2();
+						break;
+					case GameStates.level3:
+						LoadLevel3();
+						break;
+					case GameStates.victory:
+						LoadEnd();
+						break;
+					case GameStates.gameover:
+						LoadEnd();
+						break;
+					case GameStates.exit:
+						Application.Exit();
+						break;
+					default:
+						break;
+				}
+			}
+		}
 
         public void LoadStart()
         {

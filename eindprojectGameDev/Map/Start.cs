@@ -31,14 +31,14 @@ namespace eindprojectGameDev.Map
         public override void LoadContent()
         {
             base.LoadContent();
-            if (!GameManager.musicStarted)
-            {
-                GameManager.song = Content.Load<Song>("music");
-                MediaPlayer.IsRepeating = true;
-                MediaPlayer.Play(GameManager.song);
-                GameManager.musicStarted= true;
-            }
-            backgroundTexture = Content.Load<Texture2D>("background");
+			if (!GameManager.musicStarted)
+			{
+				GameManager.song = Content.Load<Song>("music");
+				MediaPlayer.IsRepeating = true;
+				MediaPlayer.Play(GameManager.song);
+				GameManager.musicStarted = true;
+			}
+			backgroundTexture = Content.Load<Texture2D>("background");
             buttonLvl1 = new Button(Level1Rectangle, "darkred", "Level 1", Content);
             buttonLvl1.onClick += delegate { GameState.gameState = GameStates.level1; };
             buttonLvl2 = new Button(Level2Rectangle, "darkred", "Level 2", Content);

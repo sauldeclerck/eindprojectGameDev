@@ -18,6 +18,7 @@ namespace eindprojectGameDev.World
         public string title;
         public Color color;
         Vector2 textPosition;
+        public event EventHandler onClick;
         public Button(Rectangle rectangle, string fileName, string title, ContentManager content)
         {
             texture = content.Load<Texture2D>(fileName);
@@ -26,7 +27,6 @@ namespace eindprojectGameDev.World
             this.title = title;
         }
 
-        public event EventHandler onClick;
         public void Draw(SpriteBatch _spriteBatch)
         {
             color = Color.White;
