@@ -2,7 +2,7 @@
 
 namespace eindprojectGameDev.interfaces
 {
-    internal interface IMovable
+    public interface IMovable
     {
         public Rectangle nextHitboxH { get; set; }
         public Rectangle nextHitboxV { get; set; }

@@ -9,13 +9,15 @@ using System.Diagnostics;
 
 namespace eindprojectGameDev.Map
 {
-    public static class BlockFactory
+    public abstract class BlockFactory : GameScreen
     {
+		private new Game1 Game => (Game1)base.Game;
+		public BlockFactory(Game1 game) : base(game) { }
 		enum blockOrder { first, middle, last };
         
-        public static Block[,] CreateBlocks(char[,] blockArray, Texture2D texture, ContentManager content)
+        public Block[,] CreateBlocks(char[,] blockArray, Texture2D texture, ContentManager content)
         {
-            char previousChar , currentChar, nextChar, upperChar, underChar = '#';
+            char previousChar, currentChar, nextChar, upperChar, underChar = '#';
             Block[,] Tileset = new Block[blockArray.GetLength(0), blockArray.GetLength(1)];
 
             for (int k = 0; k < blockArray.GetLength(0); k++)
@@ -111,15 +113,15 @@ namespace eindprojectGameDev.Map
                             break;
                         case '*':
                             //4 lines above block
-                            GameManager.enemies.Add(new Enemy(l*16,k*16, content, EnemyTypes.EnemyType.Daemon));
+                            GameManager.enemies.Add(new Daemon(l*16,k*16, content, EnemyTypes.EnemyType.Daemon));
                             break;
                         case '-':
                             //2 lines above block
-                            GameManager.enemies.Add(new Enemy(l * 16, k * 16, content, EnemyTypes.EnemyType.Porcupine));
+                            GameManager.enemies.Add(new Porcupine(l * 16, k * 16, content, EnemyTypes.EnemyType.Porcupine));
                             break;
                         case '_':
                             //4 lines above block
-                            GameManager.enemies.Add(new Enemy(l * 16, k * 16, content, EnemyTypes.EnemyType.kobold));
+                            GameManager.enemies.Add(new Kobold(l * 16, k * 16, content, EnemyTypes.EnemyType.kobold));
                             break;
                         case 's':
                             //1 lines above block

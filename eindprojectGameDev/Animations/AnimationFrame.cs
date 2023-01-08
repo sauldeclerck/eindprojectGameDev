@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using eindprojectGameDev.interfaces;
+using Microsoft.Xna.Framework;
 
 namespace eindprojectGameDev.Animations
 {
-    public class AnimationFrame
+    public class AnimationFrame : IAnimation
     {
         public Rectangle SourceRectangle { get; set; }
 
@@ -10,6 +11,5 @@ namespace eindprojectGameDev.Animations
         {
             SourceRectangle = sourceRectangle;
         }
-
     }
 }

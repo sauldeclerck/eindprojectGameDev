@@ -12,7 +12,7 @@ using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
 namespace eindprojectGameDev.Characters.Player
 {
-    public class Hero : Player, ICharacter, IMovable
+    public class Hero : Player, ICharacter, IMovable, IJumpable
     {
         #region initialize
         public Animation currentAnimation = new Animation();
@@ -29,12 +29,12 @@ namespace eindprojectGameDev.Characters.Player
 
         public Hero(ContentManager content, int positionX, int positionY)
         {
+            PlayerMovement = new PlayerMovement();
             soundEffects = new List<SoundEffect>
             {
                 content.Load<SoundEffect>("jump")
             };
             soundEffects[0].CreateInstance().Volume = 0.4f;
-            PlayerMovement = new PlayerMovement();
             StartPosition = new Vector2(positionX, positionY);
             Position = StartPosition;
             color = Color.White;
@@ -74,17 +74,11 @@ namespace eindprojectGameDev.Characters.Player
             SetAnimation(direction);
             currentAnimation.Update(gameTime);
             if (PlayerMovement.ReadIsFighting() && Flip == SpriteEffects.None && currentAnimation.counter % 6 == 0)
-            {
                 hitRectangle = new Rectangle((int)(Position.X + spriteWidth * 2), (int)Position.Y + 20, 54, 80);
-            }
             else if (PlayerMovement.ReadIsFighting() && Flip == SpriteEffects.FlipHorizontally && currentAnimation.counter % 6 == 0)
-            {
                 hitRectangle = new Rectangle((int)(Position.X), (int)Position.Y + 20, 54, 80);
-            }
             else
-            {
                 hitRectangle = new Rectangle(0, 0, 0, 0);
-            }
             Hearts.Update(this);
             Hitbox = new Rectangle((int)nextPositionH.X + 50, (int)nextPositionV.Y + 42, spriteWidth, spriteWidth);
             currentAnimation.Update(gameTime);
@@ -181,7 +175,7 @@ namespace eindprojectGameDev.Characters.Player
                 Animations[0].GetFramesFromTextureProperties(2 * 160, 0 * 96, 2, 96);
             }
 
-            if (Health.health <= 0)
+            if (Health.CurrentHealth <= 0)
             {
                 currentAnimation = Animations[3];
                 Animations[3].GetFramesFromTextureProperties(6 * 160, 4 * 96, 6, 96);

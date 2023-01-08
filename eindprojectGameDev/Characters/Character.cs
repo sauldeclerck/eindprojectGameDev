@@ -21,26 +21,26 @@ namespace eindprojectGameDev.Characters
 
         public void TakeDamage(int amount)
         {
-            if (this.Health.health - amount <= 0)
+            if (this.Health.CurrentHealth - amount <= 0)
             {
-                if (Health.lives != 0)
+                if (Health.Lives != 0)
                 {
                     ResetPosition();
                 }
-                this.Health.lives--;
-                if (this.Health.lives > 0)
+                this.Health.Lives--;
+                if (this.Health.Lives > 0)
                 {
-                    this.Health.health = this.Health.maxHealth;
+                    this.Health.CurrentHealth = this.Health.MaxHealth;
                 }
                 else
                 {
-                    Health.health = 0;
-                    Health.lives = 0;
+                    Health.CurrentHealth = 0;
+                    Health.Lives = 0;
                 }
             }
             else
             {
-                this.Health.health -= amount;
+                this.Health.CurrentHealth -= amount;
             }
         }
 

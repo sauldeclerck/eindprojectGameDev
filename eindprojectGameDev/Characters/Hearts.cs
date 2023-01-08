@@ -17,7 +17,7 @@ namespace eindprojectGameDev.Characters
         public void Update(ICharacter _character)
         {
             hearts.Clear();
-            for (int i = 0; i < _character.Health.lives; i++)
+            for (int i = 0; i < _character.Health.Lives; i++)
             {
                 hearts.Add(new Rectangle(25 * i, 0, 20, 20));
             }

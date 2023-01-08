@@ -10,6 +10,7 @@ public class Block : IGameObject
     private Vector2 position;
     public Rectangle Hitbox { get; set; }
     public Texture2D Texture { get; set; }
+
     public Block(int x, int y, int PositionX, int PositionY, ContentManager content)
     {
         this.position = new Vector2(PositionX, PositionY);

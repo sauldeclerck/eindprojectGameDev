@@ -13,6 +13,8 @@ namespace eindprojectGameDev.Characters.Enemies
         public Vector2 movement = new Vector2(1, 0);
         public int spriteWidth { get; set; }
 
+        public abstract void Update(GameTime gameTime);
+        public abstract void Draw(SpriteBatch spriteBatch);
         public void SetNextPositions()
         {
             nextPositionH = Position;
@@ -33,7 +35,7 @@ namespace eindprojectGameDev.Characters.Enemies
 
         public bool CheckActive()
         {
-            if (this.Health.lives <= 0)
+            if (this.Health.Lives <= 0)
             {
                 Deactivate();
                 return false;
@@ -55,7 +57,5 @@ namespace eindprojectGameDev.Characters.Enemies
             Position = new Vector2(nextPositionH.X, Position.Y);
         }
 
-        public abstract void Update(GameTime gameTime);
-        public abstract void Draw(SpriteBatch spriteBatch);
     }
 }

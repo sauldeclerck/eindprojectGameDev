@@ -13,19 +13,22 @@ using System.Windows.Forms;
 
 namespace eindprojectGameDev.Map
 {
-	public class BaseLevel : GameScreen, ILevel
+	public class BaseLevel : BlockFactory, ILevel
 	{
 		public GameStates nextState { get; set; }
 		public GameStates previousState { get; set; }
 		public GameStates currentState { get; set; }
 		public Rectangle BackGroundRectangle = new Rectangle(0, 0, GlobalSettings.Width, GlobalSettings.Height);
+
+		private new Game1 Game => (Game1)base.Game;
+		public BaseLevel(Game1 game) : base(game){}
+
 		public char[,] CharArray { get; set; }
 		public Block[,] BlockArray { get; set; }
 		public Texture2D BackgroundTexture { get; set; }
 		public Texture2D TileSetTexture { get; set; }
 		public Color BackGroundColor { get; set; }
-		private new Game1 Game => (Game1)base.Game;
-		public BaseLevel(Game game) : base(game) { }
+		//public BaseLevel(Game game) : base(game) { }
 
 		public override void LoadContent()
 		{
@@ -34,7 +37,7 @@ namespace eindprojectGameDev.Map
 			//PowerUp.ForEach(e => GameManager.PowerUps.Add(e));
 			BackgroundTexture = Content.Load<Texture2D>("background");
 			TileSetTexture = Content.Load<Texture2D>("tileset");
-			BlockArray = BlockFactory.CreateBlocks(CharArray, TileSetTexture, Game.Content);
+			BlockArray = base.CreateBlocks(CharArray, TileSetTexture, Game.Content);
 		}
 
 		public override void Update(GameTime gameTime)
@@ -42,7 +45,7 @@ namespace eindprojectGameDev.Map
 			GameManager.Hero.Update(gameTime);
 			GameManager.enemies.ForEach(e => e.Update(gameTime));
 			GameState.gameState = (GameManager.Hero.Hitbox.Right > GlobalSettings.Width) ? nextState : currentState;
-			if (GameManager.Hero.Health.health <= 0) GameState.gameState = GameStates.gameover;
+			if (GameManager.Hero.Health.CurrentHealth <= 0) GameState.gameState = GameStates.gameover;
 			if (GameManager.Hero.Hitbox.Left < 0) GameState.gameState = previousState;
 		}
 		public override void Draw(GameTime gameTime)

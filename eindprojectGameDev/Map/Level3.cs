@@ -12,7 +12,7 @@ namespace eindprojectGameDev.Map
     internal class Level3 : BaseLevel
     {
         private new Game1 Game => (Game1)base.Game;
-        public Level3(Game game) : base(game){}
+        public Level3(Game1 game) : base(game){}
 
 
         public override void LoadContent()
